@@ -7,6 +7,18 @@ const jwt = require('jsonwebtoken');
 const verifyToken = require('./authentication');
 const config = require('../config/auth');
 
+router.post('/authenticate', (req, res) => {
+    const token = req.headers['x-access-token'];
+
+    jwt.verify(token, config.secret, (err, data) => {
+        if (err) {
+            return res.status(403).json({ message: 'You are not authorized to view this page.'});
+        } else {
+            res.json({data: data, token: token});
+        }
+    })
+})
+
 router.post('/register', (req, res) => {
     db.user.create({
         username: req.body.username,
