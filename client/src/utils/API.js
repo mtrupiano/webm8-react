@@ -9,5 +9,8 @@ export default {
                 "x-access-token": token
             }
         });
+    },
+    signin: (data) => {
+        return axios.post(`${url}/signin`, data);
     }
 }
