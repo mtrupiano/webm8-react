@@ -10,7 +10,7 @@ export default function ExplorerList(props) {
         <UserContext.Consumer>
             { 
             (data) => {
-                return props.collections.map( e => 
+                return [ ...(props.collections.map( e => 
                                                 <ExplorerListCollection
                                                     token={data.token} 
                                                     color={e.color} 
@@ -18,6 +18,15 @@ export default function ExplorerList(props) {
                                                     id={e._id} 
                                                     name={e.name} /> 
                                             )
+                        ), ...props.bookmarks.map( e => 
+                                                <ExplorerListBookmark 
+                                                    token={data.token}
+                                                    color={e.color}
+                                                    url={e.url}
+                                                    key={e._id}
+                                                    id={e._id}
+                                                    name={e.name} />
+                        )]
             }
             }
         </UserContext.Consumer>

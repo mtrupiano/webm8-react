@@ -15,7 +15,10 @@ export default function ExplorerListColorDropdown(props) {
     return (
         <>
         { props.color === null ?
-            <Tip content={<Text size='16px'>Add a color!</Text>} dropProps={{ align: { left: 'right' } }}>
+            <Tip content={
+                    <Text size='16px'>Add a color!</Text>
+                } 
+                dropProps={{ margin: {left: '37px'}, align: { left: 'right' } }}>
                 <DropButton open={colorDropOpen} dropAlign={{ top: 'bottom' }}
                     onClose={() => setColorDropOpen(false)}
                     onOpen={() => setColorDropOpen(true)}

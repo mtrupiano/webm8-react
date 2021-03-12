@@ -11,7 +11,19 @@ router.post('/', verifyToken, (req, res) => {
         tags: req.body.tags,
         user: req.userId
     }).then( (bookmark) => {
-        res.json(bookmark);
+
+        const parent = req.body.parent || req.root;
+        
+        db.collection.findByIdAndUpdate(
+            parent,
+            { $addToSet: { bookmarks: bookmark.id } },
+            { new: true }
+        ).then( (collection) => {
+            res.json(bookmark);
+        }).catch( (err) => {
+            res.status(500).json(err);
+        });
+
     }).catch( (err) => {
         res.status(500).json(err);
     });
@@ -30,6 +42,18 @@ router.put('/rename/:newName', verifyToken, (req, res) => {
     });
 });
 
+router.put('/recolor', verifyToken, (req, res) => {
+    db.bookmark.findByIdAndUpdate(
+        req.body.id,
+        { $set: { color: req.body.color } },
+        { new: true }
+    ).then((bookmark) => {
+        res.json(bookmark)
+    }).catch((err) => {
+        res.status(500).json(err);
+    });
+});
+
 
 router.get('/', verifyToken, (req, res) => {
 
@@ -39,10 +63,10 @@ router.get('/', verifyToken, (req, res) => {
             res.json(collection.bookmarks);
         }).catch( (err) => {
             res.status(500).json(err);
-        })
+        });
     }
 
-    if (req.query.tags) {
+    else if (req.query.tags) {
 
         db.bookmark.find({ tags: {$all: req.query.tags.split(',')} }).then( (bookmarks) => {
             res.json(bookmarks);

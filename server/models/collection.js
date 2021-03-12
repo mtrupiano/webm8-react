@@ -7,6 +7,7 @@ module.exports = mongoose.model("Collection", new Schema(
         name: {
             type: String,
             trim: true,
+            unique: true,
             required: 'Bookmark name required.'
         },
         color: {
@@ -31,7 +32,9 @@ module.exports = mongoose.model("Collection", new Schema(
         ],
         tags: [
             {
-                type: String
+                type: String,
+                unique: true,
+                trim: true
             }
         ]
     }

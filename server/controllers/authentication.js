@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
 
     jwt.verify(token, authConfig.secret, (err, decoded) => {
         if (err) {
-            return res.status(401).sent({ message: 'Unauthorized! '});
+            return res.status(401).send({ message: 'Unauthorized!'});
         }
         console.log("Token verified!")
         req.userId = decoded.id;
