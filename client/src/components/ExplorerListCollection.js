@@ -2,25 +2,24 @@ import { React, useState} from 'react';
 
 import UserContext from './UserContext';
 
-import { Box, Text, DropButton } from 'grommet';
+import { Box, Text, DropButton, Tip } from 'grommet';
 import { Folder, StatusGoodSmall } from 'grommet-icons';
 
 import API from '../utils/API';
 
+import ExplorerListColorDropdown from './ExplorerListColorDropdown';
+
 export default function ExplorerListCollection(props) {
-    const [colorDropOpen, setColorDropOpen] = useState(false);
     const [color, setColor] = useState(props.color);
     
     const handleColorSelect = (event) => {
         const newColor = event.target.parentNode.getAttribute('name');
-        console.log(newColor);
 
-        API.editCollectionColor(props.id, newColor, props.token).then( (response) => {
+        API.editCollectionColor(props.id, (newColor==='none' ? null : newColor), props.token).then( (response) => {
             setColor(newColor);
         }).catch( (err) => {
             console.log(err);
         });
-        setColorDropOpen(false);
     }
 
     return (
@@ -32,26 +31,7 @@ export default function ExplorerListCollection(props) {
                 <Text size='16px' truncate={true}>{props.name}</Text>
             </Box>
 
-            <DropButton open={colorDropOpen} dropAlign={{top: 'bottom'}}
-                onClose={ () => setColorDropOpen(false) }
-                onOpen={ () => setColorDropOpen(true) }
-                dropContent={
-                    <Box>
-                    <Box name='red' onMouseDown={handleColorSelect}>
-                        <StatusGoodSmall name='red' color='red' />
-                    </Box>
-                    <Box name='green' onMouseDown={handleColorSelect}>
-                        <StatusGoodSmall name='green' color='green' />
-                    </Box>
-                    <Box name='blue' onMouseDown={handleColorSelect}>
-                        <StatusGoodSmall name='blue' color='blue' />
-                    </Box>
-                    </Box>
-                }>
-                <Box>
-                    <StatusGoodSmall color={ color === null ? 'white' : color}/>
-                </Box>
-            </DropButton>
+            <ExplorerListColorDropdown color={color} handleColorSelect={handleColorSelect} />
 
         </Box>
     )
