@@ -30,10 +30,10 @@ router.post('/', verifyToken, (req, res) => {
 });
 
 // Rename a bookmark
-router.put('/rename/:newName', verifyToken, (req, res) => {
+router.put('/rename/', verifyToken, (req, res) => {
     db.bookmark.findByIdAndUpdate(
         req.body.id, 
-        { $set: { name: req.params.newName } }, 
+        { $set: { name: req.body.name } }, 
         { new: true }
     ).then( (bookmark) => {
         res.json(bookmark)

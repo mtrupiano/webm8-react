@@ -38,6 +38,14 @@ export default {
             headers: { 'x-access-token': token }
         });
     },
+    renameBookmark: (bookmarkId, newName, token) => {
+        return axios.put(`${url}/api/bookmarks/rename`, {
+            id: bookmarkId,
+            name: newName
+        }, {
+            headers: { 'x-access-token': token }
+        })
+    },
     editBookmarkColor: (bookmarkId, newColor, token) => {
         return axios.put(`${url}/api/bookmarks/recolor`, {
             id: bookmarkId,

@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 
-import { Box, Text, Button, Tip } from 'grommet';
+import { Box, Text, Button, Tip, TextInput, Form, FormField } from 'grommet';
 import { Bookmark, LinkNext } from 'grommet-icons';
 
 import ExplorerListColorDropdown from './ExplorerListColorDropdown';
@@ -8,7 +8,10 @@ import API from '../utils/API';
 
 export default function ExplorerListBookmark(props) {
     const [ color, setColor ] = useState(props.color);
-    
+
+    const [ renaming, setRenaming ] = useState(false);
+    const [ name, setName ] = useState(props.name);
+      
     const handleColorSelect = (event) => {
         const newColor = event.target.parentNode.getAttribute('name');
 
@@ -23,13 +26,53 @@ export default function ExplorerListBookmark(props) {
         })
     }
 
+    const handleNameInput = (event) => {
+        setName(event.target.value);
+    }
+
+    const handleRename = (event) => {
+        if (name !== props.name) {
+            API.renameBookmark(props.id, name, props.token).then( (response) => {
+                setName(response.data.name);
+                setRenaming(false);
+            }).catch( (err) => {
+                console.log(err);
+            });
+        } else {
+            setName(props.name);
+        }
+    }
+    
+    const handleKeyPress = (event) => {
+        if (event.keyCode === 27) { // Escape key
+            setName(props.name);
+            setRenaming(false);
+        }
+    }
+
     return (
         <Box align='center' justify='between' pad={{ vertical: 'xsmall' }} direction='row'>
             <Box direction='row'>
                 <Box pad={{ horizontal: 'small' }}>
                     <Bookmark />
                 </Box>
-                <Text size='16px' truncate={true}>{props.name}</Text>
+                { renaming ? 
+                    <Form value={name} onSubmit={handleRename}>
+                        <FormField name='newName' htmlFor='newName' label=''>
+                        <TextInput pad='0px' size='small'  onKeyDown={handleKeyPress}
+                            onChange={handleNameInput}
+                            name='newName' 
+                            value={name} />
+                        </FormField>
+                    </Form>
+                    :
+                    <Text onDoubleClick={() => setRenaming(true)} 
+                        size='16px' 
+                        truncate={true}>
+                            {name}
+                    </Text> 
+                }
+                
             </Box>
             <Box direction='row'>
                 <ExplorerListColorDropdown color={color} handleColorSelect={handleColorSelect} />
