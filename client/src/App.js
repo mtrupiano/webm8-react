@@ -1,4 +1,4 @@
-// Pach
+// Packages
 import { React, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
@@ -19,11 +19,11 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log(token);
+
     if (token) {
       API.authenticate(token).then( (response) => {
-        setUser(response);
         console.log(response);
+        setUser(response);
       }).catch( (err) => {
         console.log(err);
       });

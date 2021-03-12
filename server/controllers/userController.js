@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const verifyToken = require('./authentication');
 const config = require('../config/auth');
 
-router.post('/authenticate', (req, res) => {
+router.get('/authenticate', (req, res) => {
     const token = req.headers['x-access-token'];
 
     jwt.verify(token, config.secret, (err, data) => {
