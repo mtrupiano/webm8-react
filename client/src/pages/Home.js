@@ -1,21 +1,23 @@
 import { React, useState, useEffect } from 'react';
 
-import { Sidebar, Header, Text } from 'grommet';
+import { Grommet, Sidebar, Header, Text } from 'grommet';
 
 import API from '../utils/API';
 
+import ExplorerList from '../components/ExplorerList';
+import ExplorerListCollection from '../components/ExplorerListCollection';
+
 export default function Home(props) {
 
-    const [ rootEntities, setRootEntities ] = useState([]);
+    const [ rootCollections, setRootCollections ] = useState([]);
+    const [ rootBookmarks, setRootBookmarks ] = useState([]);
 
     useEffect(() => {
         if (props.user.rootId) {
             API.getEntitiesInCollection(props.user.rootId, props.user.token).then( (response) => {
                 console.log(response.data);
-                setRootEntities([ 
-                    ...response.data.collections, 
-                    ...response.data.bookmarks 
-                ]);
+                setRootCollections([...response.data.collections]);
+                setRootBookmarks([...response.data.bookmarks]);
             }).catch( (err) => {
                 console.log(err);
             });
@@ -23,8 +25,18 @@ export default function Home(props) {
     }, [props.user]);
 
     return (
-        <Sidebar width='300px' header={<Header background='green'><Text>WebM8</Text></Header>}>
-            { rootEntities.map( e => <p key={e._id}>{e.name}</p>) }
+        <Grommet>
+        <Sidebar 
+            pad='0px' 
+            width='300px' 
+            header={<Header 
+                        gap='none' 
+                        pad='small' 
+                        background='green'>
+                        <Text>WebM8</Text>  
+                    </Header>}>
+            <ExplorerList collections={rootCollections} bookmarks={rootBookmarks} />
         </Sidebar>
+        </Grommet>
     )
 }
