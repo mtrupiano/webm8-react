@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
-import UserContext from '../components/UserContext';
+
+import { Sidebar, Header, Text } from 'grommet';
 
 import API from '../utils/API';
 
@@ -22,8 +23,8 @@ export default function Home(props) {
     }, [props.user]);
 
     return (
-        <div>
+        <Sidebar width='300px' header={<Header background='green'><Text>WebM8</Text></Header>}>
             { rootEntities.map( e => <p key={e._id}>{e.name}</p>) }
-        </div>
+        </Sidebar>
     )
 }

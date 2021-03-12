@@ -42,7 +42,6 @@ function App() {
   return (
     <UserContext.Provider value={user}>
     <Router>
-      <NavBar />
       <Switch>
         <Route exact path='/'>
           { user ? '/home' : '/splash'}
