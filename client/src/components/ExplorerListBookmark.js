@@ -20,7 +20,7 @@ export default function ExplorerListBookmark(props) {
             (newColor === 'none' ? null : newColor),
             props.token
         ).then( (response) => {
-            setColor(newColor);
+            setColor(response.data.color);
         }).catch( (err) => {
             console.log(err);
         })

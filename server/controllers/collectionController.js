@@ -56,6 +56,18 @@ router.put('/bookmark/:bookmarkId', verifyToken, (req, res) => {
     });
 });
 
+router.put('/rename', verifyToken, (req, res) => {
+    db.collection.findByIdAndUpdate(
+        req.body.id,
+        { $set: { name: req.body.name } },
+        { new: true }
+    ).then((collection) => {
+        res.json(collection);
+    }).catch((err) => {
+        res.status(500).json(err);
+    });
+});
+
 router.get('/', verifyToken, (req, res) => {
     // Get all of a collection's entities
     if (req.query.collection) {

@@ -1,6 +1,13 @@
 import { React, useState} from 'react';
 
-import { Box, Text, DropButton, Tip, Collapsible, Layer } from 'grommet';
+import { Box, 
+        Text, 
+        DropButton, 
+        Collapsible, 
+        Layer, 
+        Form, 
+        FormField, 
+        TextInput } from 'grommet';
 import { Folder, Add } from 'grommet-icons';
 
 import API from '../utils/API';
@@ -10,14 +17,18 @@ import ExplorerListColorDropdown from './ExplorerListColorDropdown';
 import NewCollectionModal from './NewCollectionModal';
 
 export default function ExplorerListCollection(props) {
-    const [color, setColor] = useState(props.color);
-    const [explorerCollapseOpen, setExplorerCollapseOpen] = useState(false);
-    const [newEntityOpen, setNewEntityOpen] = useState(false);
+    const [ color, setColor ] = useState(props.color);
+    const [ explorerCollapseOpen, setExplorerCollapseOpen ] = useState(false);
 
-    const [ subCollections, setSubCollections] = useState([]);
-    const [ bookmarks, setBookmarks] = useState([]);
+    const [ newEntityOpen, setNewEntityOpen ] = useState(false);
 
-    const [showNewCollectionModal, setShowNewCollectionModal] = useState(false);
+    const [ subCollections, setSubCollections ] = useState([]);
+    const [ bookmarks, setBookmarks ] = useState([]);
+
+    const [ showNewCollectionModal, setShowNewCollectionModal ] = useState(false);
+
+    const [ renaming, setRenaming ] = useState(false);
+    const [ name, setName ] = useState(props.name);
     
     const handleColorSelect = (event) => {
         const newColor = event.target.parentNode.getAttribute('name');
@@ -25,12 +36,11 @@ export default function ExplorerListCollection(props) {
         API.editCollectionColor(
             props.id, (newColor==='none' ? null : newColor), 
             props.token
-        )
-            .then( (response) => {
-                setColor(newColor);
-            }).catch( (err) => {
-                console.log(err);
-            });
+        ).then( (response) => {
+            setColor(response.data.color);
+        }).catch( (err) => {
+            console.log(err);
+        });
     }
 
     const loadSubEntities = (event) => {
@@ -52,6 +62,30 @@ export default function ExplorerListCollection(props) {
         setShowNewCollectionModal(true);
     }
 
+    const handleNameInput = (event) => {
+        setName(event.target.value);
+    }
+
+    const handleRename = (event) => {
+        if (name !== props.name) {
+            API.renameCollection(props.id, name, props.token).then((response) => {
+                setName(response.data.name);
+                setRenaming(false);
+            }).catch((err) => {
+                console.log(err);
+            });
+        } else {
+            setName(props.name);
+        }
+    }
+
+    const handleKeyPress = (event) => {
+        if (event.keyCode === 27) { // Escape key
+            setName(props.name);
+            setRenaming(false);
+        }
+    }
+
     return (
         <Box onClick={loadSubEntities} 
             align='center' 
@@ -63,7 +97,22 @@ export default function ExplorerListCollection(props) {
                 <Box pad={{horizontal: 'small'}}>
                     <Folder />
                 </Box>
-                <Text size='16px' truncate={true}>{props.name}</Text>
+                {renaming ?
+                    <Form value={name} onSubmit={handleRename}>
+                        <FormField name='newName' htmlFor='newName' label=''>
+                            <TextInput pad='0px' size='small' onKeyDown={handleKeyPress}
+                                onChange={handleNameInput}
+                                name='newName'
+                                value={name} />
+                        </FormField>
+                    </Form>
+                    :
+                    <Text onDoubleClick={() => setRenaming(true)}
+                        size='16px'
+                        truncate={true}>
+                        {name}
+                    </Text>
+                }
             </Box>
 
             

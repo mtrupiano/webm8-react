@@ -22,6 +22,14 @@ export default {
             headers: { 'x-access-token': token }
         });
     },
+    renameCollection: (collectionId, newName, token) => {
+        return axios.put(`${url}/api/collection/rename`, {
+            id: collectionId,
+            name: newName
+        }, {
+            headers: { 'x-access-token': token }
+        });
+    },
     editCollectionColor: (collectionId, newColor, token) => {
         const data = {
             id: collectionId,
