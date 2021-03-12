@@ -67,17 +67,6 @@ router.get('/', verifyToken, (req, res) => {
             .catch( (err) => {
                 res.status(500).json(err);
             });
-    } else {
-        // Get a user's root collection
-        db.collection.find({ name: '_root',  user: req.userId })
-            .populate('collections')
-            .populate('bookmarks')
-            .then( (collection) => {
-                res.json(collection);
-            })
-            .catch( (err) => {
-                res.status(500).json(err);
-            });
     }
 });
 
