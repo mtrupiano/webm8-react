@@ -17,5 +17,14 @@ export default {
         return axios.get(`${url}/api/collection/?collection=${collectionId}`, {
             headers: { 'x-access-token': token }
         });
+    },
+    editCollectionColor: (collectionId, newColor, token) => {
+        const data = {
+            id: collectionId,
+            color: newColor
+        }
+        return axios.put(`${url}/api/collection/recolor`, data, {
+            headers: { 'x-access-token': token }
+        });
     }
 }

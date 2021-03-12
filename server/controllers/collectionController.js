@@ -70,5 +70,17 @@ router.get('/', verifyToken, (req, res) => {
     }
 });
 
+router.put('/recolor', verifyToken, (req, res) => {
+    db.collection.findByIdAndUpdate(
+        req.body.id,
+        { $set: { color: req.body.color } },
+        { new: true }
+    ).then( (collection) => {
+        res.json(collection);
+    }).catch( (err) => {
+        res.status(500).json(err);
+    })
+});
+
 
 module.exports = router;

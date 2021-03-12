@@ -5,14 +5,21 @@ import UserContext from './UserContext';
 import { Box, Text, DropButton } from 'grommet';
 import { Folder, StatusGoodSmall } from 'grommet-icons';
 
+import API from '../utils/API';
+
 export default function ExplorerListCollection(props) {
     const [colorDropOpen, setColorDropOpen] = useState(false);
+    const [color, setColor] = useState(props.color);
     
     const handleColorSelect = (event) => {
-        if (event.target.id === '') {
-            const newColor = event.target.parentNode.getAttribute('name');
-            console.log(newColor);
-        }
+        const newColor = event.target.parentNode.getAttribute('name');
+        console.log(newColor);
+
+        API.editCollectionColor(props.id, newColor, props.token).then( (response) => {
+            setColor(newColor);
+        }).catch( (err) => {
+            console.log(err);
+        });
         setColorDropOpen(false);
     }
 
@@ -24,6 +31,7 @@ export default function ExplorerListCollection(props) {
                 </Box>
                 <Text size='16px' truncate={true}>{props.name}</Text>
             </Box>
+
             <DropButton open={colorDropOpen} dropAlign={{top: 'bottom'}}
                 onClose={ () => setColorDropOpen(false) }
                 onOpen={ () => setColorDropOpen(true) }
@@ -41,7 +49,7 @@ export default function ExplorerListCollection(props) {
                     </Box>
                 }>
                 <Box>
-                    <StatusGoodSmall color={props.color}/>
+                    <StatusGoodSmall color={ color === null ? 'white' : color}/>
                 </Box>
             </DropButton>
 
