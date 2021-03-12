@@ -15,7 +15,12 @@ import API from './utils/API';
 
 function App() {
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    userId: '',
+    rootId: '',
+    token: '',
+    isSignedIn: false
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -25,6 +30,7 @@ function App() {
         setUser({ 
           userId: response.data.data.id, 
           rootId: response.data.data.root,
+          token: token,
           isSignedIn: true
         });
       }).catch( (err) => {
@@ -34,7 +40,7 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={{user: user, setUser: setUser}}>
+    <UserContext.Provider value={user}>
     <Router>
       <NavBar />
       <Switch>
@@ -43,7 +49,7 @@ function App() {
         </Route>
         <Route exact path='/home'>
           <UserContext.Consumer>
-            { (data) => <Home user={data.user} setUser={data.setUser} /> }
+            { (data) => <Home user={data} /> }
           </UserContext.Consumer>
         </Route>
         <Route exact path='/splash'>

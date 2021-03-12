@@ -57,7 +57,7 @@ router.put('/bookmark/:bookmarkId', verifyToken, (req, res) => {
 });
 
 router.get('/', verifyToken, (req, res) => {
-    // Get all of a collection's subcollections
+    // Get all of a collection's entities
     if (req.query.collection) {
         db.collection.findById(req.query.collection)
             .populate('collections').populate('bookmarks')

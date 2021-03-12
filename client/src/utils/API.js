@@ -12,5 +12,10 @@ export default {
     },
     signin: (data) => {
         return axios.post(`${url}/signin`, data);
+    },
+    getEntitiesInCollection: (collectionId, token) => {
+        return axios.get(`${url}/api/collection/?collection=${collectionId}`, {
+            headers: { 'x-access-token': token }
+        });
     }
 }
