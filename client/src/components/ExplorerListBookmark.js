@@ -7,16 +7,16 @@ import ExplorerListColorDropdown from './ExplorerListColorDropdown';
 import API from '../utils/API';
 
 export default function ExplorerListBookmark(props) {
-    const [ color, setColor ] = useState(props.color);
+    const [ color, setColor ] = useState(props.bookmark.color);
 
     const [ renaming, setRenaming ] = useState(false);
-    const [ name, setName ] = useState(props.name);
+    const [ name, setName ] = useState(props.bookmark.name);
       
     const handleColorSelect = (event) => {
         const newColor = event.target.parentNode.getAttribute('name');
 
         API.editBookmarkColor(
-            props.id,
+            props.bookmark._id,
             (newColor === 'none' ? null : newColor),
             props.token
         ).then( (response) => {
@@ -31,8 +31,8 @@ export default function ExplorerListBookmark(props) {
     }
 
     const handleRename = (event) => {
-        if (name !== props.name) {
-            API.renameBookmark(props.id, name, props.token).then( (response) => {
+        if (name !== props.bookmark.name) {
+            API.renameBookmark(props.bookmark._id, name, props.token).then( (response) => {
                 setName(response.data.name);
                 setRenaming(false);
             }).catch( (err) => {
@@ -45,14 +45,14 @@ export default function ExplorerListBookmark(props) {
     
     const handleKeyPress = (event) => {
         if (event.keyCode === 27) { // Escape key
-            setName(props.name);
+            setName(props.bookmark.name);
             setRenaming(false);
         }
     }
 
     return (
         <Box align='center' justify='between' pad={{ vertical: 'xsmall' }} direction='row'>
-            <Box direction='row'>
+            <Box onClick={() => props.selectBookmark(props.bookmark)} direction='row'>
                 <Box pad={{ horizontal: 'small' }}>
                     <Bookmark />
                 </Box>
@@ -78,7 +78,7 @@ export default function ExplorerListBookmark(props) {
                 <ExplorerListColorDropdown color={color} handleColorSelect={handleColorSelect} />
                 <Tip content='Go!' 
                     dropProps={{ margin: { left: '0px' }, align: { left: 'right' } }}>
-                    <Button as='a' href={props.url} target='_blank' icon={<LinkNext size='20px' />} />
+                    <Button as='a' href={props.bookmark.url} target='_blank' icon={<LinkNext size='20px' />} />
                 </Tip>
             </Box>
         </Box>

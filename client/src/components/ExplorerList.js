@@ -12,7 +12,7 @@ export default function ExplorerList(props) {
             (data) => {
                 return [ ...(props.collections.map( e => 
                                                 <ExplorerListCollection
-                                                    token={data.token} 
+                                                    token={data.user.token} 
                                                     color={e.color} 
                                                     key={e._id}
                                                     id={e._id} 
@@ -20,12 +20,9 @@ export default function ExplorerList(props) {
                                             )
                         ), ...props.bookmarks.map( e => 
                                                 <ExplorerListBookmark 
-                                                    token={data.token}
-                                                    color={e.color}
-                                                    url={e.url}
-                                                    key={e._id}
-                                                    id={e._id}
-                                                    name={e.name} />
+                                                    token={data.user.token}
+                                                    bookmark={e}
+                                                    selectBookmark={data.selectBookmark} />
                         )]
             }
             }

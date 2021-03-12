@@ -22,12 +22,14 @@ function App() {
     isSignedIn: false
   });
 
+  const [ selectedBookmark, setSelectedBookmark ] = useState({});
+
   useEffect(() => {
     const token = localStorage.getItem('token');
 
     if (token) {
       API.authenticate(token).then( (response) => {
-        setUser({ 
+        setUser({ ...user,
           userId: response.data.data.id, 
           rootId: response.data.data.root,
           token: token,
@@ -40,7 +42,11 @@ function App() {
   }, []);
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{
+      user: user, 
+      selectBookmark: setSelectedBookmark, 
+      selectedBookmark: selectedBookmark
+    }} >
     <Router>
       <Switch>
         <Route exact path='/'>
@@ -48,7 +54,10 @@ function App() {
         </Route>
         <Route exact path='/home'>
           <UserContext.Consumer>
-            { (data) => <Home user={data} /> }
+            { (data) => <Home user={data.user} 
+                              selectedBookmark={data.selectedBookmark} 
+                              selectBookmark={data.selectBookmark}/> 
+            }
           </UserContext.Consumer>
         </Route>
         <Route exact path='/splash'>
