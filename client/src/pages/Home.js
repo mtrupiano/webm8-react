@@ -5,7 +5,7 @@ export default function Home(props) {
 
     return (
         <div>
-            { props.user ? props.user.name : 'Hello'}
+            { props.user ? props.user.userId : 'Hello' }
         </div>
     )
 }

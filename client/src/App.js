@@ -22,8 +22,11 @@ function App() {
 
     if (token) {
       API.authenticate(token).then( (response) => {
-        console.log(response);
-        setUser(response);
+        setUser({ 
+          userId: response.data.data.id, 
+          rootId: response.data.data.root,
+          isSignedIn: true
+        });
       }).catch( (err) => {
         console.log(err);
       });
