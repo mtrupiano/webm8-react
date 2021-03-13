@@ -11,6 +11,8 @@ export default function ExplorerListBookmark(props) {
 
     const [ renaming, setRenaming ] = useState(false);
     const [ name, setName ] = useState(props.bookmark.name);
+
+    const [ amISelected, setAmISelected ] = useState(false);
       
     const handleColorSelect = (event) => {
         const newColor = event.target.parentNode.getAttribute('name');
@@ -51,9 +53,18 @@ export default function ExplorerListBookmark(props) {
     }
 
     return (
-        <Box align='center' justify='between' pad={{ vertical: 'xsmall' }} direction='row'>
-            <Box onClick={() => props.selectBookmark(props.bookmark)} direction='row'>
-                <Box pad={{ horizontal: 'small' }}>
+        <Box align='center' 
+            background={props.selectedBookmark._id === props.bookmark._id ? 
+                'rgba(0,0,0,0.05)' : 'rgba(0,0,0,0)'}
+            justify='between' 
+            pad={{ vertical: 'xsmall', horizontal: 'small' }} 
+            direction='row'>
+
+            <Box fill pad={{vertical: 'small'}} 
+                onClick={() => props.selectBookmark(props.bookmark)} 
+                direction='row'>
+
+                <Box pad={{ right: 'small' }}>
                     <Bookmark />
                 </Box>
                 { renaming ? 
@@ -74,13 +85,19 @@ export default function ExplorerListBookmark(props) {
                 }
                 
             </Box>
+
             <Box direction='row'>
                 <ExplorerListColorDropdown color={color} handleColorSelect={handleColorSelect} />
                 <Tip content='Go!' 
                     dropProps={{ margin: { left: '0px' }, align: { left: 'right' } }}>
-                    <Button as='a' href={props.bookmark.url} target='_blank' icon={<LinkNext size='20px' />} />
+                    <Button 
+                        as='a' 
+                        href={props.bookmark.url} 
+                        target='_blank' 
+                        icon={<LinkNext size='20px' />} />
                 </Tip>
             </Box>
+
         </Box>
     )
 }
