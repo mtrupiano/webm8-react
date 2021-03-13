@@ -25,8 +25,24 @@ export default function Home(props) {
         }
     }, [props.user]);
 
+    const theme = {
+        global: {
+            colors: {
+                focus: undefined
+            }
+        },
+        formField: {
+            focus: {
+                background: {
+                    color: 'white'
+                }
+            },
+            border: undefined
+        }
+    }
+
     return (
-        <Grommet>
+        <Grommet theme={theme}>
         <Box direction='row'>
         
         <Box height='100%'
