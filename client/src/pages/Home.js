@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 
-import { Grommet, Box, Header, Text } from 'grommet';
+import { Grommet, Grid, Box, Heading, Text } from 'grommet';
 
 import API from '../utils/API';
 
@@ -38,22 +38,39 @@ export default function Home(props) {
                 }
             },
             border: undefined
+        },
+        text: {
+            extend: ` padding-top: 4.5px `
+        },
+        heading: {
+            extend: ` padding-top: 6px`
         }
     }
 
     return (
         <Grommet theme={theme}>
+            <Grid rows={['auto', 'flex']}
+                    columns={['auto', 'flex']}
+                    gap="small"
+                    areas={[
+                        { name: 'header', start: [0, 0], end: [1, 0] },
+                        { name: 'nav', start: [0, 1], end: [0, 1] },
+                        { name: 'main', start: [1, 1], end: [1, 1] }]
+                    }>
+
+        <Box elevation='small' background='#69DB58' gridArea='header'>
+            <Heading 
+                margin={{left: 'small', vertical: '16px'}} 
+                pad='small' level={2}>
+                    webM8
+            </Heading>
+        </Box>
+        
         <Box direction='row'>
         
         <Box height='100%'
             pad='0px' 
             width={{min: '300px'}}>
-            <Header
-                gap='none'
-                pad='small'
-                background='green'>
-                <Text>WebM8</Text>
-            </Header>
             <ExplorerList
                 collections={rootCollections} 
                 bookmarks={rootBookmarks} />
@@ -65,6 +82,8 @@ export default function Home(props) {
         </Box>
 
         </Box>
+
+        </Grid>
         </Grommet>
     )
 }

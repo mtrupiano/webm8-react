@@ -107,7 +107,7 @@ export default function ExplorerListCollection(props) {
                         </FormField>
                     </Form>
                     :
-                    <Text onDoubleClick={() => setRenaming(true)}
+                    <Text  onDoubleClick={() => setRenaming(true)}
                         size='16px'
                         truncate={true}>
                         {name}

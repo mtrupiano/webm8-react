@@ -1,6 +1,7 @@
 // Packages
 import { React, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { Grommet } from 'grommet';
 
 // Pages
 import Home from './pages/Home';
@@ -12,6 +13,8 @@ import NavBar from './components/NavBar';
 
 // Utilities
 import API from './utils/API';
+
+import './App.css'
 
 function App() {
 
@@ -41,7 +44,19 @@ function App() {
     }
   }, []);
 
+  const theme = {
+    global: {
+      font: {
+        family: "Overpass"
+      }
+    },
+    text: {
+      extend: ` padding-top: 4.5px `
+    }
+  };
+
   return (
+    <Grommet theme={theme}>
     <UserContext.Provider value={{
       user: user, 
       selectBookmark: setSelectedBookmark, 
@@ -66,6 +81,7 @@ function App() {
       </Switch>
     </Router>
     </UserContext.Provider>
+    </Grommet>
   );
 }
 
