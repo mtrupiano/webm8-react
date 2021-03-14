@@ -86,7 +86,7 @@ export default function ExplorerListBookmark(props) {
                 
             </Box>
 
-            <Box direction='row'>
+            <Box align='center' direction='row'>
                 <ExplorerListColorDropdown color={color} handleColorSelect={handleColorSelect} />
                 <Tip content='Go!' 
                     dropProps={{ margin: { left: '0px' }, align: { left: 'right' } }}>

@@ -49,9 +49,6 @@ function App() {
       font: {
         family: "Overpass"
       }
-    },
-    text: {
-      extend: ` padding-top: 4.5px `
     }
   };
 

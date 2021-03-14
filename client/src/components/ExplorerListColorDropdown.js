@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react'
 
-import { Box, DropButton, Tip, Text } from 'grommet';
+import { Grommet, Box, DropButton, Tip, Text } from 'grommet';
 import { StatusGoodSmall, Clear } from 'grommet-icons';
 
 export default function ExplorerListColorDropdown(props) {
@@ -12,9 +12,30 @@ export default function ExplorerListColorDropdown(props) {
         props.handleColorSelect(event);
     };
 
+    const theme = {
+        global: {
+            colors: {
+                focus: undefined
+            },
+            drop: {
+                extend: ` border-radius: 10px`
+            },
+            extend: ` justify-content: middle `
+        },
+        formField: {
+            focus: {
+                background: {
+                    color: 'white'
+                }
+            },
+            border: undefined
+        },
+    }
+
     return (
         <>
         { props.color === null ?
+            <Grommet theme={theme}>
             <Tip content={
                     <Text size='16px'>Add a color!</Text>
                 } 
@@ -23,7 +44,7 @@ export default function ExplorerListColorDropdown(props) {
                     onClose={() => setColorDropOpen(false)}
                     onOpen={() => setColorDropOpen(true)}
                     dropContent={
-                        <Box>
+                        <Box gap='xsmall' pad='xsmall'>
                             <Box name={null} onMouseDown={handleColorSelect}>
                                 <Clear name={null} color='rgba(0,0,0,0.2)' />
                             </Box>
@@ -47,21 +68,23 @@ export default function ExplorerListColorDropdown(props) {
                             </Box>
                         </Box>
                     }>
-                    <Box 
+                    <Box
                         onMouseOver={() => { setGrayOnHover('rgba(0,0,0,0.05)')}} 
                         onMouseLeave={() => { setGrayOnHover('white')}}>
                         <StatusGoodSmall color={grayOnHover} />
                     </Box>
                 </DropButton>
             </Tip>
+            </Grommet>
 
             :
-
+            
+            <Grommet theme={theme}>
             <DropButton open={colorDropOpen} dropAlign={{ top: 'bottom' }}
                 onClose={() => setColorDropOpen(false)}
                 onOpen={() => setColorDropOpen(true)}
                 dropContent={
-                    <Box>
+                    <Box round='large' gap='xsmall' pad='xsmall'>
                         <Box name={null} onMouseDown={handleColorSelect}>
                             <Clear name={null} color='rgba(0,0,0,0.2)' />
                         </Box>
@@ -89,6 +112,7 @@ export default function ExplorerListColorDropdown(props) {
                     <StatusGoodSmall color={props.color} />
                 </Box>
             </DropButton>
+            </Grommet>
         }
         </>
     )

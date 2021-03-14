@@ -51,7 +51,6 @@ export default function Home(props) {
         <Grommet theme={theme}>
             <Grid rows={['auto', 'flex']}
                     columns={['auto', 'flex']}
-                    gap="small"
                     areas={[
                         { name: 'header', start: [0, 0], end: [1, 0] },
                         { name: 'nav', start: [0, 1], end: [0, 1] },
@@ -68,14 +67,14 @@ export default function Home(props) {
         
         <Box direction='row'>
         
-        <Box height='100%'
+        <Box gridArea='nav' elevation='small' height={{min: '100%'}}
             pad='0px' 
             width={{min: '300px'}}>
             <ExplorerList
                 collections={rootCollections} 
                 bookmarks={rootBookmarks} />
         </Box>
-        <Box width='100%'>
+        <Box gridArea='main' width='100%'>
             <BookmarkView user={props.user} 
                 selectedBookmark={props.selectedBookmark} 
                 selectBookmark={props.selectBookmark} />
