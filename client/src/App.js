@@ -1,6 +1,6 @@
 // Packages
 import { React, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Grommet } from 'grommet';
 
 // Pages
@@ -71,7 +71,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path='/'>
-          { user.isSignedIn ? '/home' : <Greeting />}
+          { user.isSignedIn ? <Redirect to='/home' /> : <Greeting /> }
         </Route>
         <Route exact path='/home'>
           <UserContext.Consumer>

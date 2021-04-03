@@ -22,7 +22,7 @@ export default function Greeting() {
             <NavBar />
             <Box 
                 pad='medium'
-                height='calc(100vh - 74px)'
+                height={{ min: 'calc(100vh - 74px)', max: '732px' }}
             >
                 <Heading margin={{ top: 'medium' }}>
                     Welcome to webM8!
