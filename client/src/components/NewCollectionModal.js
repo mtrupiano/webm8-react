@@ -67,9 +67,7 @@ export default function NewCollectionModal(props) {
                     Add a new collection in: 
 
                     <Text size={pathTextSize}> /root/</Text>
-                    { props.path.map( e => {
-                        return <Text size={pathTextSize}>{e.name}/</Text>
-                    })}
+                    { props.path.map( e => <Text size={pathTextSize}>{e.name}/</Text> )}
                 </Heading>
             </Box>
 
@@ -79,7 +77,8 @@ export default function NewCollectionModal(props) {
                         name='name' 
                         onChange={handleInput} 
                         value={formValues.name}
-                        placeholder='Enter a name for your collection' />
+                        placeholder='Enter a name for your collection'
+                    />
                 </FormField>
                 
                 <Box margin={{ bottom: '30px' }} direction='row' gap='small'>
@@ -89,15 +88,12 @@ export default function NewCollectionModal(props) {
                         direction='row'
                         gap='small'
                     >
-                        { colors.map( e => <ColorSelect color={e} /> )}
+                        { colors.map( e => <ColorSelect color={e} /> ) }
                         <Stack
                             onClick={() => setColor('')}
                             anchor='center'
                         >
-                            <Radial
-                                size='26px'
-                                color='rgba(0,0,0,0)'
-                            />
+                            <Radial size='26px' color='rgba(0,0,0,0)' />
                             <Clear size='21px' />
                         </Stack>
                         

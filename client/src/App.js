@@ -1,6 +1,6 @@
 // Packages
 import { React, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { Grommet } from 'grommet';
 
 // Pages
@@ -57,7 +57,7 @@ function App() {
         family: "Overpass"
       }
     }
-  };
+  }
 
   return (
     <Grommet theme={theme}>
@@ -71,17 +71,18 @@ function App() {
     <Router>
       <Switch>
         <Route exact path='/'>
-          { user ? '/home' : <Greeting />}
+          { user.isSignedIn ? <Redirect to='/home' /> : <Greeting /> }
         </Route>
         <Route exact path='/home'>
-          <UserContext.Consumer>
-            { (data) => <Home user={data.user} 
-                              selectedCollection={data.selectedCollection}
-                              selectCollection={data.selectCollection}
-                              selectedBookmark={data.selectedBookmark} 
-                              selectBookmark={data.selectBookmark}/> 
-            }
-          </UserContext.Consumer>
+          { user.isSignedIn ? 
+            <UserContext.Consumer>
+              { (data) => <Home user={data.user} 
+                                selectedCollection={data.selectedCollection}
+                                selectCollection={data.selectCollection}
+                                selectedBookmark={data.selectedBookmark} 
+                                selectBookmark={data.selectBookmark}/> 
+              }
+            </UserContext.Consumer> : <Redirect to='/' /> }
         </Route>
         <Route exact path='/splash'>
           <Splash />
