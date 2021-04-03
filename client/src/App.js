@@ -74,14 +74,15 @@ function App() {
           { user.isSignedIn ? <Redirect to='/home' /> : <Greeting /> }
         </Route>
         <Route exact path='/home'>
-          <UserContext.Consumer>
-            { (data) => <Home user={data.user} 
-                              selectedCollection={data.selectedCollection}
-                              selectCollection={data.selectCollection}
-                              selectedBookmark={data.selectedBookmark} 
-                              selectBookmark={data.selectBookmark}/> 
-            }
-          </UserContext.Consumer>
+          { user.isSignedIn ? 
+            <UserContext.Consumer>
+              { (data) => <Home user={data.user} 
+                                selectedCollection={data.selectedCollection}
+                                selectCollection={data.selectCollection}
+                                selectedBookmark={data.selectedBookmark} 
+                                selectBookmark={data.selectBookmark}/> 
+              }
+            </UserContext.Consumer> : <Redirect to='/' /> }
         </Route>
         <Route exact path='/splash'>
           <Splash />
