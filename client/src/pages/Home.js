@@ -142,7 +142,9 @@ export default function Home(props) {
                 <Box elevation='small' background='#69DB58' gridArea='header'>
                     <Heading 
                         margin={{left: 'small', vertical: '16px'}} 
-                        pad='small' level={2}>
+                        pad='small' 
+                        level={2}
+                    >
                             webM8
                     </Heading>
                 </Box>
