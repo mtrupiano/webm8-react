@@ -71,7 +71,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path='/'>
-          { user ? '/home' : <Greeting />}
+          { user.isSignedIn ? '/home' : <Greeting />}
         </Route>
         <Route exact path='/home'>
           <UserContext.Consumer>
