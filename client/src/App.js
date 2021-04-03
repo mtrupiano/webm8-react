@@ -1,15 +1,15 @@
 // Packages
 import { React, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Grommet } from 'grommet';
 
 // Pages
 import Home from './pages/Home';
 import Splash from './pages/Splash';
+import Greeting from './pages/Greeting';
 
 // Components
 import UserContext from './components/UserContext';
-import NavBar from './components/NavBar';
 
 // Utilities
 import API from './utils/API';
@@ -26,6 +26,7 @@ function App() {
   });
 
   const [ selectedBookmark, setSelectedBookmark ] = useState({});
+  const [ selectedCollection, setSelectedCollection ] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -38,11 +39,17 @@ function App() {
           token: token,
           isSignedIn: true
         });
+        
+        API.getSelectedCollection(token).then( (response) => {
+          setSelectedCollection(response.data);
+        }).catch( (err) => {
+          console.log(err)
+        });
       }).catch( (err) => {
         console.log(err);
       });
     }
-  }, []);
+  }, [  ]);
 
   const theme = {
     global: {
@@ -57,16 +64,20 @@ function App() {
     <UserContext.Provider value={{
       user: user, 
       selectBookmark: setSelectedBookmark, 
-      selectedBookmark: selectedBookmark
+      selectedBookmark: selectedBookmark,
+      selectedCollection: selectedCollection,
+      selectCollection: setSelectedCollection
     }} >
     <Router>
       <Switch>
         <Route exact path='/'>
-          { user ? '/home' : '/splash'}
+          { user ? '/home' : <Greeting />}
         </Route>
         <Route exact path='/home'>
           <UserContext.Consumer>
             { (data) => <Home user={data.user} 
+                              selectedCollection={data.selectedCollection}
+                              selectCollection={data.selectCollection}
                               selectedBookmark={data.selectedBookmark} 
                               selectBookmark={data.selectBookmark}/> 
             }

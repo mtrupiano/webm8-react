@@ -8,10 +8,10 @@ import ExplorerListBookmark from './ExplorerListBookmark';
 export default function ExplorerList(props) {
     return (
         <UserContext.Consumer>
-            { 
-            (data) => {
+            {  (data) => {
                 return [ ...(props.collections.map( e => 
                                                 <ExplorerListCollection
+                                                    setActiveCollection={props.setActiveCollection}
                                                     token={data.user.token} 
                                                     color={e.color} 
                                                     key={e._id}

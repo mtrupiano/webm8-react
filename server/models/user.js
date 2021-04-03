@@ -24,6 +24,14 @@ const UserSchema = new mongoose.Schema(
         created: {
             type: Date,
             default: Date.now
+        },
+        selectedBookmark: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Bookmark'
+        },
+        selectedCollection: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Collection'
         }
     }
 );

@@ -5,7 +5,7 @@ import { Bookmark } from 'grommet-icons';
 
 export default function BookmarkView(props) {
     return (
-        <Grid pad='small'
+        <Grid pad='small' fill
             rows={['auto', 'flex']}
             columns={['auto', 'flex']}
             gap="small"
@@ -14,7 +14,8 @@ export default function BookmarkView(props) {
                 { name: 'nav', start: [0, 1], end: [0, 1] },
                 { name: 'main', start: [1, 1], end: [1, 1] },
             ]} >
-
+        
+        
         <Box gridArea='header'>
             <Heading margin='small' level={3}>
                 {props.selectedBookmark.name}

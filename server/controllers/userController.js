@@ -26,11 +26,21 @@ router.post('/register', (req, res) => {
         email: req.body.email,
         hash_password: bcrypt.hashSync(req.body.password, 8)
     }).then( (user) => {
+        console.log(user)
         db.collection.create({
             name: '_root',
             user: user._id
         }).then( (collection) => {
-            res.json(user);
+            console.log(collection)
+            db.user.findByIdAndUpdate(
+                user._id,
+                { $set: { selectedCollection: collection._id } },
+                { new: true }
+            ).then( (userComplete) => {
+                res.json(userComplete);
+            }).catch( (err) => {
+                res.status(500).json(err);
+            })
         }).catch( (err) => {
             res.status(500).json(err);
         })
@@ -58,12 +68,35 @@ router.post('/signin', async (req, res) => {
         user: user._id
     });
 
-    const token = jwt.sign({ id: user._id, root: rootCollection._id }, config.secret, {
-        expiresIn: 86400 // 24 hours
-    });
+    const token = jwt.sign({ 
+                        id: user._id, 
+                        root: rootCollection._id
+                    }, config.secret, {
+                        expiresIn: 86400 // 24 hours
+                    });
 
     res.status(200).send({ ...(user._doc), accessToken: token });
 
 });
+
+router.put('/selectedCollection/:collectionId', verifyToken, (req, res) => {
+    db.user.findOneAndUpdate(
+        req.userId,
+        { $set: { selectedCollection: req.params.collectionId }},
+        { new: true }
+    ).then( (user) => {
+        res.json(user);
+    }).catch( (err) => {
+        res.status(500).json(err);
+    })
+})
+
+router.get('/selectedCollection', verifyToken, (req, res) => {
+    db.user.findById(req.userId).then( (result) => {
+        res.json(result.selectedCollection);
+    }).catch( (err) => {
+        res.status(500).json(err);
+    })
+})
 
 module.exports = router;

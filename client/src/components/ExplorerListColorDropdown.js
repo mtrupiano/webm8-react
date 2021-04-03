@@ -8,6 +8,7 @@ export default function ExplorerListColorDropdown(props) {
     const [grayOnHover, setGrayOnHover] = useState('white');
 
     const handleColorSelect = (event) => {
+        event.stopPropagation()
         setColorDropOpen(false);
         props.handleColorSelect(event);
     };

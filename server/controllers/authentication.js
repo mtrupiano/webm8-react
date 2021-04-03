@@ -5,7 +5,6 @@ const authConfig = require('../config/auth');
 module.exports = (req, res, next) => {
     console.log('Verifying token!');
     let token = req.headers['x-access-token'];
-
     if (!token) {
         return res.status(403).send({message: 'No token provided.'})
     }

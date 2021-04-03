@@ -26,11 +26,6 @@ module.exports = mongoose.model("Bookmark", new Schema(
         color: {
             type: String,
             enum: ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'pink']
-        },
-        tags: [{
-            type: String,
-            unique: true,
-            trim: true
-        }]
+        }
     }
 ));

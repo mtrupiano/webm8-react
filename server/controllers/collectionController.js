@@ -4,10 +4,12 @@ const db = require('../models');
 const verifyToken = require('./authentication');
 
 router.post('/', verifyToken, (req, res) => {
+
     db.collection.create({
         name: req.body.name,
         user: req.userId,
-        color: 'red'
+        color: req.body.color,
+        parent: req.body.parent || req.root
     }).then( (collection) => {
         // If a parent collection is specified, update the parent
         if (req.body.parent) {
@@ -25,6 +27,7 @@ router.post('/', verifyToken, (req, res) => {
                 });
         } else {
             // Add new collection to user's root
+            console.log(req.root);
             db.collection.findByIdAndUpdate(
                 req.root,
                 { $addToSet: { collections: collection.id } },
@@ -74,12 +77,25 @@ router.get('/', verifyToken, (req, res) => {
         db.collection.findById(req.query.collection)
             .populate('collections').populate('bookmarks')
             .then( (collection) => {
-                res.json(collection);
+                res.json(collection)
             })
             .catch( (err) => {
-                res.status(500).json(err);
+                res.status(500).json(err)
             });
     }
+});
+
+router.get('/path', verifyToken, async (req, res) => {
+    let path = [];
+    let currentCollection = await db.collection.findById(req.query.collection);
+    let parent = await db.collection.findById(currentCollection.parent, '_id name');
+    while (parent.name !== '_root') {
+        path.push(parent);
+        currentCollection = await db.collection.findById(currentCollection.parent);
+        parent = await db.collection.findById(currentCollection.parent, '_id name');
+    }
+
+    res.json(path.reverse());
 });
 
 router.put('/recolor', verifyToken, (req, res) => {
