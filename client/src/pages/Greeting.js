@@ -3,7 +3,7 @@ import { Anchor, Box, Heading, Text } from 'grommet'
 import { Bookmark, Folder } from 'grommet-icons'
 import NavBar from '../components/NavBar'
 
-export default function Greeting() {
+export default function Greeting(props) {
 
     const Separator = (props) => {
         return <Box
@@ -19,7 +19,7 @@ export default function Greeting() {
             background='rgb(245, 245, 245)' 
             fill
         >
-            <NavBar />
+            <NavBar handleSignIn={props.handleSignIn} />
             <Box 
                 pad='medium'
                 height={{ min: 'calc(100vh - 74px)', max: '732px' }}

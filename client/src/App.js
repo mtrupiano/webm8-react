@@ -51,10 +51,36 @@ function App() {
     }
   }, [  ]);
 
+  const signIn = ( username, password ) => {
+
+    API.signin({ username, password }).then( response => {
+      localStorage.setItem('token', response.data.accessToken)
+      setUser({
+        userId: response.data._id,
+        rootId: response.data.root,
+        token: response.data.accessToken,
+        isSignedIn: true
+      })
+      API.getSelectedCollection(response.data.accessToken)
+        .then( selectedCollectionResponse => {
+          setSelectedCollection(selectedCollectionResponse.data);
+        }).catch( err  => {
+          console.log(err)
+        });
+    }).catch( err => {
+      console.log(err)
+    })
+  } 
+
   const theme = {
     global: {
       font: {
         family: "Overpass"
+      },
+      drop: {
+        border: { 
+          radius: '10px'
+        }
       }
     }
   }
@@ -71,7 +97,7 @@ function App() {
     <Router>
       <Switch>
         <Route exact path='/'>
-          { user.isSignedIn ? <Redirect to='/home' /> : <Greeting /> }
+          { user.isSignedIn ? <Redirect to='/home' /> : <Greeting handleSignIn={signIn} /> }
         </Route>
         <Route exact path='/home'>
           { user.isSignedIn ? 

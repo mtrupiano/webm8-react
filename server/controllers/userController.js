@@ -75,7 +75,7 @@ router.post('/signin', async (req, res) => {
                         expiresIn: 86400 // 24 hours
                     });
 
-    res.status(200).send({ ...(user._doc), accessToken: token });
+    res.status(200).send({ ...(user._doc), root: rootCollection._id, accessToken: token });
 
 });
 
