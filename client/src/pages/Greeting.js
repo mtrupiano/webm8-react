@@ -1,5 +1,4 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
 import { Anchor, Box, Heading, Text } from 'grommet'
 import { Bookmark, Folder } from 'grommet-icons'
 import NavBar from '../components/NavBar'
