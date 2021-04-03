@@ -57,7 +57,7 @@ function App() {
         family: "Overpass"
       }
     }
-  };
+  }
 
   return (
     <Grommet theme={theme}>
