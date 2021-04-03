@@ -5,8 +5,14 @@ import { Bookmark } from 'grommet-icons';
 
 export default function NavBar() {
     return (
-        <Header elevation='medium' pad='medium' background='#69DB58'>
-            <Anchor size='large' color='white' label='webm8' href='/' icon={<Bookmark size='40px' />}/>
+        <Header height='74px' elevation='medium' pad='medium' background='#69DB58'>
+            <Anchor 
+                size='large' 
+                color='white' 
+                label='webm8' 
+                href='/' 
+                icon={<Bookmark size='40px' />}
+            />
         </Header>
     )
 }
