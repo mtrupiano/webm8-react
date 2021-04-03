@@ -68,9 +68,7 @@ export default function NewBookmarkModal(props) {
                     Add a new bookmark in:
 
                     <Text size={pathTextSize}> /root/</Text>
-                    {props.path.map(e => {
-                        return <Text size={pathTextSize}>{e.name}/</Text>
-                    })}
+                    {props.path.map(e => <Text size={pathTextSize}>{e.name}/</Text> )}
                 </Heading>
             </Box>
 
@@ -80,7 +78,8 @@ export default function NewBookmarkModal(props) {
                         name='name'
                         onChange={handleInput}
                         value={formValues.name}
-                        placeholder='Enter a name for your bookmark' />
+                        placeholder='Enter a name for your bookmark' 
+                    />
                 </FormField>
 
                 <Box direction='row' gap='small'>
@@ -95,10 +94,7 @@ export default function NewBookmarkModal(props) {
                             onClick={() => setColor('')}
                             anchor='center'
                         >
-                            <Radial
-                                size='26px'
-                                color='rgba(0,0,0,0)'
-                            />
+                            <Radial size='26px' color='rgba(0,0,0,0)' />
                             <Clear size='21px' />
                         </Stack>
 
@@ -111,14 +107,16 @@ export default function NewBookmarkModal(props) {
                         name='url'
                         onChange={handleInput}
                         value={formValues.url}
-                        placeholder='Enter the URL' />
+                        placeholder='Enter the URL' 
+                    />
                 </FormField>
                 <FormField name='notes' htmlFor='notes' label='Notes' required>
                     <TextArea
                         name='notes'
                         onChange={handleInput}
                         value={formValues.notes}
-                        placeholder="Enter any notes you'd like to save with this bookmark." />
+                        placeholder="Enter any notes you'd like to save with this bookmark." 
+                    />
                 </FormField>
 
                 <Button
