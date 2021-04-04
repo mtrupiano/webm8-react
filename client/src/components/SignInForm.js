@@ -46,58 +46,62 @@ export default function SignInForm(props) {
 
     return (
         <Grommet theme={theme}>
-        <Box pad={{ top: 'xsmall', horizontal: 'small', bottom: 'small' }}>
 
-        <Heading margin={{ bottom: '8px', top: '0px' }} level={4}>
-            Sign In or <Anchor>Sign Up</Anchor>
-        </Heading>
-        <Form value={formValues}>
-            <FormField
-                name='username'
-                label=''
-                htmlFor='username'
-                required
-            >
-                <TextInput 
+            <Box pad={{ top: 'xsmall', horizontal: 'small', bottom: 'small' }}>
 
-                    id='username'
-                    name='username'
-                    placeholder='Username'
-                    onChange={ handleInput }
-                    value={formValues.username}
-                />
-            </FormField>
-            <FormField
-                name='password'
-                label=''
-                htmlFor='password'
-                required
-            >
-                <TextInput 
-                    id='password'
-                    name='password'
-                    placeholder='Password'
-                    onChange={ handleInput }
-                    value={formValues.password}
-                />
-            </FormField>
+                <Heading margin={{ bottom: '8px', top: '0px' }} level={4}>
+                    Sign In or <Anchor>Sign Up</Anchor>
+                </Heading>
 
-            <Box gap='small' justify='center' direction='row'>
-                <Button 
-                    style={{ fontSize: '12pt', background: '#69DB58' }}
-                    type='submit' 
-                    label='Sign In' 
-                    onClick={handleSignIn}
-                />
-                <Button
-                    style={{ fontSize: '12pt', background: '#69DB58' }}
-                    type='button' 
-                    label='Cancel' 
-                    onClick={ () => props.setSignInForm(false) } 
-                />
+                <Form value={formValues}>
+
+                    <FormField
+                        name='username'
+                        label=''
+                        htmlFor='username'
+                        required
+                    >
+                        <TextInput 
+                            id='username'
+                            name='username'
+                            placeholder='Username'
+                            onChange={ handleInput }
+                            value={formValues.username}
+                        />
+                    </FormField>
+
+                    <FormField
+                        name='password'
+                        label=''
+                        htmlFor='password'
+                        required
+                    >
+                        <TextInput 
+                            id='password'
+                            name='password'
+                            placeholder='Password'
+                            onChange={ handleInput }
+                            value={formValues.password}
+                        />
+                    </FormField>
+
+                    <Box gap='small' justify='center' direction='row'>
+                        <Button 
+                            style={{ fontSize: '12pt', background: '#69DB58' }}
+                            type='submit' 
+                            label='Sign In' 
+                            onClick={handleSignIn}
+                        />
+                        <Button
+                            style={{ fontSize: '12pt', background: '#69DB58' }}
+                            type='button' 
+                            label='Cancel' 
+                            onClick={ () => props.setSignInForm(false) } 
+                        />
+                    </Box>
+                    
+                </Form>
             </Box>
-        </Form>
-        </Box>
         </Grommet>
     )
 }

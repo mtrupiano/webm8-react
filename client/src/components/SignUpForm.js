@@ -8,9 +8,11 @@ export default function SignUpForm() {
         email: '',
         password: ''
     })
+
     const handleInput = (event) => {
         setFormValues({ ...formValues, [event.target.name]: event.target.value })
     }
+    
     return (
         <Form values={formValues}>
             <FormField
@@ -22,7 +24,7 @@ export default function SignUpForm() {
                 <TextInput
                     id='username'
                     name='username'
-                    placeholder='Username'
+                    placeholder='Enter a username...'
                     onChange={handleInput}
                     value={formValues.username}
                 />
@@ -36,7 +38,7 @@ export default function SignUpForm() {
                 <TextInput
                     id='name'
                     name='name'
-                    placeholder='Enter your name'
+                    placeholder='Enter your name...'
                     onChange={handleInput}
                     value={formValues.username}
                 />
@@ -50,21 +52,21 @@ export default function SignUpForm() {
                 <TextInput
                     id='email'
                     name='email'
-                    placeholder='Email'
+                    placeholder='Enter your email address...'
                     onChange={handleInput}
                     value={formValues.username}
                 />
             </FormField>
             <FormField
-                name='name'
+                name='password'
                 label=''
-                htmlFor='name'
+                htmlFor='password'
                 required
             >
                 <TextInput
-                    id='name'
-                    name='name'
-                    placeholder='name'
+                    id='password'
+                    name='password'
+                    placeholder='Enter your password...'
                     onChange={handleInput}
                     value={formValues.username}
                 />
