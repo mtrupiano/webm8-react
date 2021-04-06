@@ -27,7 +27,7 @@ export default function Path(props) {
             <Text size='medium'>/</Text>
 
             { props.path.map( e => {
-                return <Box direction='row'>
+                return <Box key={e._id} direction='row'>
                             <Anchor 
                                 size='medium'
                                 key={e._id} 
