@@ -1,9 +1,14 @@
-import React from 'react'
-import { Anchor, Box, Heading, Text } from 'grommet'
+import React, { useState } from 'react'
+import { Anchor, Box, Heading, Layer, Text } from 'grommet'
 import { Bookmark, Folder } from 'grommet-icons'
 import NavBar from '../components/NavBar'
+import SignUpForm from '../components/SignUpForm';
 
 export default function Greeting(props) {
+
+    const [ showSignUpModal, setShowSignUpModal ] = useState(false)
+    const [ showSignUpSuccessModal, setShowSignUpSuccessModal ] = useState(false)
+    const [ showSignInModal, setShowSignInForm ] = useState(false)
 
     const Separator = (props) => {
         return <Box
@@ -14,12 +19,32 @@ export default function Greeting(props) {
                     background='green' />
     }
 
+    const closeSignUpForm = () => {
+        setShowSignUpModal(false);
+    }
+
+    const successfulSignUp = () => {
+        closeSignUpForm()
+        setShowSignUpSuccessModal(true)
+    }
+
+    const goToSignIn = () => {
+        setShowSignUpSuccessModal(false)
+        setShowSignUpModal(false)
+        setShowSignInForm(true)
+    }
+
     return (
         <Box 
             background='rgb(245, 245, 245)' 
             fill
         >
-            <NavBar handleSignIn={props.handleSignIn} />
+            <NavBar 
+                setShowSignInForm={setShowSignInForm} 
+                showSignInForm={showSignInModal} 
+                handleSignIn={props.handleSignIn} 
+                onSignUpClick={ () => setShowSignUpModal(true) }
+            />
             <Box 
                 pad='medium'
                 height={{ min: 'calc(100vh - 74px)', max: '732px' }}
@@ -127,7 +152,11 @@ export default function Greeting(props) {
 
                     <Separator align='start' />
 
-                    <Anchor color='green' href='/home' size='xlarge'>
+                    <Anchor 
+                        onClick={ () => setShowSignUpModal(true) } 
+                        color='green'
+                        size='xlarge'
+                    >
                         Get Started!
                     </Anchor>
 
@@ -135,6 +164,35 @@ export default function Greeting(props) {
 
             </Box>
             
+            { showSignUpModal &&
+                <Layer 
+                    modal
+                    onClickOutside={ closeSignUpForm }
+                    onEsc={closeSignUpForm}
+                >
+                    <SignUpForm 
+                        onSuccessfulSignUp={successfulSignUp} 
+                        closeForm={closeSignUpForm} 
+                        goToSignIn={goToSignIn}
+                    />
+                </Layer> }
+
+            { showSignUpSuccessModal && 
+                <Layer
+                    modal
+                    onClickOutside={closeSignUpForm}
+                    onEsc={closeSignUpForm}
+                >
+                    <Box pad='medium'>
+                        <Heading margin={{ vertical: '0px', bottom: '5px' }} level={3}>
+                            Your account was successfully created!
+                        </Heading>
+                        <Text>
+                            <Anchor onClick={goToSignIn}>Sign in</Anchor> to
+                                your new account to be taken to your home page and start collecting bookmarks!
+                        </Text>
+                    </Box>
+                </Layer> }
         </Box>
     )
 }

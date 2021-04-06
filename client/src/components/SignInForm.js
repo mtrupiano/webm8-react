@@ -15,6 +15,11 @@ export default function SignInForm(props) {
         props.handleSignIn(formValues.username, formValues.password)
     }
 
+    const goToSignUp = () => {
+        props.setSignInForm(false)
+        props.onSignUpClick()
+    }
+
     const theme = {
         global: {
             colors: {
@@ -50,10 +55,10 @@ export default function SignInForm(props) {
             <Box pad={{ top: 'xsmall', horizontal: 'small', bottom: 'small' }}>
 
                 <Heading margin={{ bottom: '8px', top: '0px' }} level={4}>
-                    Sign In or <Anchor>Sign Up</Anchor>
+                    Sign In or <Anchor onClick={goToSignUp}>Sign Up</Anchor>
                 </Heading>
 
-                <Form value={formValues}>
+                <Form validate="submit" value={formValues}>
 
                     <FormField
                         name='username'

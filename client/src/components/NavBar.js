@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 
-import { Header, Anchor, DropButton, Box, Grommet } from 'grommet';
+import { Header, Anchor, DropButton, Box, Grommet, Button } from 'grommet';
 import { Bookmark } from 'grommet-icons';
 import SignInForm from './SignInForm';
 
 export default function NavBar(props) {
-
-    const [ signInForm, setSignInForm ] = useState(false);
 
     const theme = {
         global: {
@@ -40,22 +38,24 @@ export default function NavBar(props) {
                 href='/' 
                 icon={<Bookmark size='40px' />}
             />
-            <Box direction='row'>
+            <Box gap='small' direction='row'>
                 <DropButton primary
                     label='Sign In' 
-                    open={signInForm}
-                    onOpen={ () => setSignInForm(true) }
-                    onClose={ () => setSignInForm(false) }
+                    open={props.showSignInForm}
+                    onOpen={ () => props.setShowSignInForm(true) }
+                    onClose={ () => props.setShowSignInForm(false) }
                     dropProps={{ 
                         align: { top: 'bottom' }, 
                         margin: { right: 'xxlarge' },
                         pad: '10px'
                     }}
                     dropContent={ <SignInForm 
+                                    onSignUpClick={props.onSignUpClick}
                                     handleSignIn={props.handleSignIn} 
-                                    setSignInForm={setSignInForm} 
+                                    setSignInForm={props.setShowSignInForm} 
                                   /> }
                 />
+                <Button onClick={props.onSignUpClick} label='Sign Up' />
             </Box>
         </Header>
     )
