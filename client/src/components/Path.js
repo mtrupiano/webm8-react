@@ -4,6 +4,9 @@ import { Anchor, Box, Text, Grommet, Drop } from 'grommet';
 export default function Path(props) {
     const theme = {
         global: {
+            font: {
+                family: 'Overpass'
+            },
             colors: {
                 focus: undefined
             },
@@ -71,7 +74,7 @@ export default function Path(props) {
                                             size='medium'
                                             onClick={() => props.setSelectedCollection(e._id)}
                                         >
-                                            &gt;{e.name}
+                                            &gt; {e.name === '_root' ? 'root' : e.name}
                                         </Anchor>
                                     )
                                 }) }
