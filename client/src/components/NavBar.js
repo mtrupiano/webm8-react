@@ -8,6 +8,13 @@ export default function NavBar(props) {
 
     const theme = {
         global: {
+            colors: {
+                focus: undefined
+            },
+            font: {
+                size: '11pt',
+                family: 'Overpass'
+            },
             drop: {
                 border: {
                     radius: '10px'
@@ -15,15 +22,16 @@ export default function NavBar(props) {
             }
         },
         button: {
-            primary: {
-                background: {
-                    color: 'gray'
-                }
+            color: 'black',
+            border: {
+                radius: '5px',
+                color: 'gray'
             }
         }
     }
 
     return (
+        <Grommet theme={theme}>
         <Header 
             height='74px' 
             elevation='medium' 
@@ -39,7 +47,9 @@ export default function NavBar(props) {
                 icon={<Bookmark size='40px' />}
             />
             <Box gap='small' direction='row'>
-                <DropButton primary
+                <DropButton 
+                    style={{ fontSize: '12pt', background: '#69DB58' }}
+                    primary
                     label='Sign In' 
                     open={props.showSignInForm}
                     onOpen={ () => props.setShowSignInForm(true) }
@@ -55,8 +65,12 @@ export default function NavBar(props) {
                                     setSignInForm={props.setShowSignInForm} 
                                   /> }
                 />
-                <Button onClick={props.onSignUpClick} label='Sign Up' />
+                <Button 
+                    style={{ fontSize: '12pt', background: '#69DB58' }}
+                    onClick={props.onSignUpClick} 
+                    label='Sign Up' />
             </Box>
         </Header>
+        </Grommet>
     )
 }

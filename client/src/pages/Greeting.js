@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Anchor, Box, Heading, Layer, Text } from 'grommet'
+import { Anchor, Box, Heading, Layer, Stack, Text } from 'grommet'
 import { Bookmark, Folder } from 'grommet-icons'
 import NavBar from '../components/NavBar'
 import SignUpForm from '../components/SignUpForm';
@@ -137,8 +137,17 @@ export default function Greeting(props) {
                             round='50%'
                             background='rgba(200,200,200,0.6)'
                             margin={{ right: '10px' }}
+                            style={{ position: 'relative' }}
                         >
-                            <Bookmark color='rgb(86, 97, 89)' size='36px' />
+                            <Bookmark 
+                                style={{ position: 'absolute', right: '18px', bottom: '15px' }} 
+                                color='rgb(86, 97, 89)' 
+                                size='24px' />
+                            <Bookmark color='rgb(86, 97, 89)' size='24px' />
+                            <Bookmark
+                                style={{ position: 'absolute', left: '18px', top: '15px' }} 
+                                color='rgb(86, 97, 89)' 
+                                size='24px' />
                         </Box>
                         <Box justify='center'>
                             <Heading margin={{ bottom: '5px', top: '0px' }} level={3}>
