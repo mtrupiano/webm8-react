@@ -26,7 +26,6 @@ router.post('/register', (req, res) => {
         email: req.body.email,
         hash_password: bcrypt.hashSync(req.body.password, 8)
     }).then( (user) => {
-        console.log(user)
         db.collection.create({
             name: '_root',
             user: user._id
@@ -45,6 +44,7 @@ router.post('/register', (req, res) => {
             res.status(500).json(err);
         })
     }).catch( (err) => {
+        console.log(err)
         res.status(500).json(err);
     });
 });

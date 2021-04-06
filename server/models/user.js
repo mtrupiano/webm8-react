@@ -7,16 +7,18 @@ const UserSchema = new mongoose.Schema(
             type: String,
             trim: true,
             unique: true,
-            required: 'Bookmark name required.'
+            required: 'Username required.',
+            validate: [ u => u.length >= 3 || u.length <= 20, "Username must be between 3 and 20 characters" ]
         },
         name: {
             type: String,
             trim: true,
-            required: 'URL required'
+            required: 'Name required'
         },
         email: {
             type: String,
-            trim: true
+            trim: true,
+            match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
         },
         hash_password: {
             type: String

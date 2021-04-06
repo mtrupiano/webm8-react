@@ -15,6 +15,9 @@ export default {
     signin: (data) => {
         return axios.post(`${url}/signin`, data);
     },
+    signup: (data) => {
+        return axios.post(`${url}/register`, data);
+    },
 
     // Collection functions
     getEntitiesInCollection: (collectionId, token) => {

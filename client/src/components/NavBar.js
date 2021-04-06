@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 
-import { Header, Anchor, DropButton, Box, Grommet } from 'grommet';
+import { Header, Anchor, DropButton, Box, Grommet, Button } from 'grommet';
 import { Bookmark } from 'grommet-icons';
 import SignInForm from './SignInForm';
 
 export default function NavBar(props) {
 
-    const [ signInForm, setSignInForm ] = useState(false);
-
     const theme = {
         global: {
+            colors: {
+                focus: undefined
+            },
+            font: {
+                size: '11pt',
+                family: 'Overpass'
+            },
             drop: {
                 border: {
                     radius: '10px'
@@ -17,15 +22,16 @@ export default function NavBar(props) {
             }
         },
         button: {
-            primary: {
-                background: {
-                    color: 'gray'
-                }
+            color: 'black',
+            border: {
+                radius: '5px',
+                color: 'gray'
             }
         }
     }
 
     return (
+        <Grommet theme={theme}>
         <Header 
             height='74px' 
             elevation='medium' 
@@ -40,23 +46,31 @@ export default function NavBar(props) {
                 href='/' 
                 icon={<Bookmark size='40px' />}
             />
-            <Box direction='row'>
-                <DropButton primary
+            <Box gap='small' direction='row'>
+                <DropButton 
+                    style={{ fontSize: '12pt', background: '#69DB58' }}
+                    primary
                     label='Sign In' 
-                    open={signInForm}
-                    onOpen={ () => setSignInForm(true) }
-                    onClose={ () => setSignInForm(false) }
+                    open={props.showSignInForm}
+                    onOpen={ () => props.setShowSignInForm(true) }
+                    onClose={ () => props.setShowSignInForm(false) }
                     dropProps={{ 
                         align: { top: 'bottom' }, 
                         margin: { right: 'xxlarge' },
                         pad: '10px'
                     }}
                     dropContent={ <SignInForm 
+                                    onSignUpClick={props.onSignUpClick}
                                     handleSignIn={props.handleSignIn} 
-                                    setSignInForm={setSignInForm} 
+                                    setSignInForm={props.setShowSignInForm} 
                                   /> }
                 />
+                <Button 
+                    style={{ fontSize: '12pt', background: '#69DB58' }}
+                    onClick={props.onSignUpClick} 
+                    label='Sign Up' />
             </Box>
         </Header>
+        </Grommet>
     )
 }
