@@ -81,6 +81,7 @@ export default function ExplorerListCollection(props) {
                 direction='row'
                 background={ hover ? 'rgba(0,0,0,0.2)' : undefined}
                 elevation={ hover ? 'small' : undefined}
+                style={{ cursor: 'pointer' }}
             >
 
                 <Box direction='row'>

@@ -87,7 +87,10 @@ router.get('/', verifyToken, (req, res) => {
 
 router.get('/path', verifyToken, async (req, res) => {
     let currentCollection = await db.collection.findById(req.query.collection);
-    if (currentCollection.name === '_root') return;
+    if (currentCollection.name === '_root') {
+        res.json([ currentCollection ])
+        return
+    }
     
     let path = [];
     let parent = await db.collection.findById(currentCollection.parent, '_id name');
@@ -96,6 +99,7 @@ router.get('/path', verifyToken, async (req, res) => {
         currentCollection = await db.collection.findById(currentCollection.parent);
         parent = await db.collection.findById(currentCollection.parent, '_id name');
     }
+    path.push(parent)
 
     res.json(path.reverse());
 });
