@@ -23,6 +23,7 @@ export default function ExplorerListCollection(props) {
     const [ hover, setHover ] = useState(false);
     
     const handleColorSelect = (event) => {
+        event.stopPropagation()
         const newColor = event.target.parentNode.getAttribute('name');
 
         API.editCollectionColor(
@@ -60,6 +61,11 @@ export default function ExplorerListCollection(props) {
     }
 
     const handleClick = (event) => {
+        if (event.target.tagName === 'circle') {
+            // Hacky way of intercepting click event if 
+            // it's on the color select trigger
+            return
+        }
         props.setActiveCollection(props.id)
     }
 
@@ -68,7 +74,7 @@ export default function ExplorerListCollection(props) {
             <Box
                 onMouseEnter={ () => setHover(true) }
                 onMouseLeave={ () => setHover(false) }
-                onClick={handleClick}
+                onMouseDown={handleClick}
                 align='center' 
                 justify='between' 
                 pad={{vertical: 'xsmall'}} 
