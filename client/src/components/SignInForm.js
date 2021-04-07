@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Form, FormField, TextInput, Button, Box, Grommet, Heading, Anchor } from 'grommet'
+import { Form, FormField, TextInput, Button, Box, Grommet, Heading, Anchor, Text } from 'grommet'
 
 export default function SignInForm(props) {
     const [ formValues, setFormValues ] = useState({
@@ -7,12 +7,20 @@ export default function SignInForm(props) {
         password: ''
     })
 
+    const [ userNotFoundErr, setUserNotFoundErr ] = useState(false)
+
     const handleInput = (event) => {
         setFormValues({ ...formValues, [ event.target.name ]: event.target.value })
     }
 
-    const handleSignIn = () => {
-        props.handleSignIn(formValues.username, formValues.password)
+    const handleSignIn = async () => {
+        if (formValues.username === '' || formValues.password === '') 
+            return;
+        const signIn = await props.handleSignIn(formValues.username, formValues.password)
+
+        if ( signIn && signIn.message === "User not found") {
+            setUserNotFoundErr(true)
+        }
     }
 
     const goToSignUp = () => {
@@ -46,6 +54,14 @@ export default function SignInForm(props) {
         },
         textInput: {
             extend: ' padding: 5px 3px 3px 3px '
+        }
+    }
+
+    const ErrorMsg = (props) => {
+        if (props.toggler) {
+            return <Text size='11pt' color='red'>{props.message}</Text>
+        } else {
+            return null
         }
     }
 
@@ -89,6 +105,7 @@ export default function SignInForm(props) {
                             value={formValues.password}
                         />
                     </FormField>
+                    <ErrorMsg message="User not found." toggler={userNotFoundErr} />
 
                     <Box gap='small' justify='center' direction='row'>
                         <Button 

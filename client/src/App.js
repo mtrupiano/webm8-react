@@ -51,25 +51,27 @@ function App() {
     }
   }, [  ]);
 
-  const signIn = ( username, password ) => {
+  const signIn = async ( username, password ) => {
+    try {
+      const { data } = await API.signin({ username, password })
 
-    API.signin({ username, password }).then( response => {
-      localStorage.setItem('token', response.data.accessToken)
+      localStorage.setItem('token', data.accessToken)
+      
       setUser({
-        userId: response.data._id,
-        rootId: response.data.root,
-        token: response.data.accessToken,
+        userId: data._id,
+        rootId: data.root,
+        token: data.accessToken,
         isSignedIn: true
       })
-      API.getSelectedCollection(response.data.accessToken)
-        .then( selectedCollectionResponse => {
-          setSelectedCollection(selectedCollectionResponse.data);
-        }).catch( err  => {
-          console.log(err)
-        });
-    }).catch( err => {
-      console.log(err)
-    })
+
+      API.getSelectedCollection(data.accessToken).then(response => {
+        setSelectedCollection(response.data)
+      }).catch( err => {
+        console.log(err)
+      })
+    } catch (err) {
+      return err.response.data
+    }
   } 
 
   const theme = {
