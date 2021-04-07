@@ -13,16 +13,20 @@ import AddBookmarkButton from '../components/AddBookmarkButton';
 import NewCollectionModal from '../components/NewCollectionModal';
 import NothingHereDisplay from '../components/NothingHereDisplay';
 import NewBookmarkModal from '../components/NewBookmarkModal';
+import ExplorerListColorDropdown from '../components/ExplorerListColorDropdown';
 
 export default function Home(props) {
 
     const [ rootCollections, setRootCollections ] = useState([]);
     const [ rootBookmarks, setRootBookmarks ] = useState([]);
-    const [ activeCollection, setActiveCollection ] = useState({});
+    const [ activeCollectionID, setActiveCollectionID ] = useState('');
+    const [ activeCollectionName, setActiveCollectionName ] = useState('');
     const [ path, setPath ] = useState([]);
     
     const [ showNewCollectionModal, setShowNewCollectionModal ] = useState(false);
     const [ showNewBookmarkModal, setShowNewBookmarkModal ] = useState(false);
+
+    const [ color, setColor ] = useState('');
 
     useEffect(() => {
 
@@ -30,18 +34,15 @@ export default function Home(props) {
             // Check database for most recently viewed collection
             API.getSelectedCollection(props.user.token)
                 .then( (selectedCollectionResponse) => {
-                    setActiveCollection({
-                        id: selectedCollectionResponse.data
-                    })
+                    setActiveCollectionID(selectedCollectionResponse.data)
                     // Get all sub entities of currently selected collection
                     API.getEntitiesInCollection(selectedCollectionResponse.data, props.user.token)
                         .then( (entitiesResponse) => {
-                            setActiveCollection({ 
-                                ...activeCollection, 
-                                name: entitiesResponse.data.name 
-                            })
+
+                            setActiveCollectionName(entitiesResponse.data.name)
                             setRootCollections(entitiesResponse.data.collections)
                             setRootBookmarks(entitiesResponse.data.bookmarks)
+                            setColor(entitiesResponse.data.color)
         
                             // Get the path to the currently selected collection
                             API.getPath(selectedCollectionResponse.data, props.user.token)
@@ -62,14 +63,12 @@ export default function Home(props) {
     }, [props.user])
 
     const reloadEntities = () => {
-        API.getEntitiesInCollection(activeCollection.id, props.user.token)
+        API.getEntitiesInCollection(activeCollectionID, props.user.token)
             .then((entitiesResponse) => {
-                setActiveCollection({
-                    ...activeCollection,
-                    name: entitiesResponse.data.name
-                })
+                setActiveCollectionName(entitiesResponse.data.name)
                 setRootCollections(entitiesResponse.data.collections)
                 setRootBookmarks(entitiesResponse.data.bookmarks)
+                setColor(entitiesResponse.data.color)
 
             }).catch((err) => {
                 console.log(err)
@@ -77,24 +76,21 @@ export default function Home(props) {
     }
 
     const handleCollectionSelect = (collectionId) => {
-        setActiveCollection(collectionId)
+        setActiveCollectionID(collectionId)
         
         API.updateSelectedCollection(collectionId, props.user.token).then( response => {
 
             // Get all sub entities of currently selected collection
             API.getEntitiesInCollection(collectionId, props.user.token)
                 .then( (entitiesResponse) => {
-                    setActiveCollection({
-                        ...activeCollection,
-                        name: entitiesResponse.data.name
-                    })
+                    setActiveCollectionName(entitiesResponse.data.name)
                     setRootCollections(entitiesResponse.data.collections)
                     setRootBookmarks(entitiesResponse.data.bookmarks)
+                    setColor(entitiesResponse.data.color)
 
                     // Get the path to the currently selected collection
                     API.getPath(collectionId, props.user.token)
                         .then( pathResponse => {
-                            console.log(pathResponse.data);
                             setPath(pathResponse.data)
                         }).catch(err => {
                             console.log(err)
@@ -104,6 +100,20 @@ export default function Home(props) {
                     console.log(err)
                 })
         }).catch( err => console.log(err) )
+    }
+
+    const handleColorSelect = (event) => {
+        event.stopPropagation()
+        const newColor = event.target.parentNode.getAttribute('name');
+
+        API.editCollectionColor(
+            activeCollectionID, (newColor === 'none' ? null : newColor),
+            props.user.token
+        ).then((response) => {
+            setColor(response.data.color);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
 
     const theme = {
@@ -171,13 +181,16 @@ export default function Home(props) {
                                     root={props.user.rootId} 
                                     setSelectedCollection={handleCollectionSelect} 
                                 />
-                                <Text>{activeCollection.name}</Text>
+                                <Text>{activeCollectionName}</Text>
                             </Box>
 
                             <Box 
                                 direction='row'
                                 pad={{ bottom: '5px' }}
                             >
+                                <ExplorerListColorDropdown
+                                    color={color}
+                                    handleColorSelect={handleColorSelect} />
                                 <AddCollectionButton
                                     onClick={ () => setShowNewCollectionModal(true) } />
                                 <AddBookmarkButton
@@ -191,7 +204,7 @@ export default function Home(props) {
                                 newBookmark={() => setShowNewBookmarkModal(true) } /> 
                             : 
                             <ExplorerList
-                                activeCollection={activeCollection}
+                                activeCollection={activeCollectionID}
                                 setActiveCollection={handleCollectionSelect}
                                 collections={rootCollections} 
                                 bookmarks={rootBookmarks} />                            
@@ -216,7 +229,7 @@ export default function Home(props) {
                 >
                     <NewCollectionModal
                         path={path}
-                        parent={activeCollection.id}
+                        parent={activeCollectionID}
                         token={props.user.token}
                         onSubmit={reloadEntities}
                         closeModal={ () => setShowNewCollectionModal(false) } />
@@ -229,7 +242,7 @@ export default function Home(props) {
                 >
                     <NewBookmarkModal
                         path={path}
-                        parent={activeCollection.id}
+                        parent={activeCollectionID}
                         token={props.user.token}
                         onSubmit={reloadEntities}
                         closeModal={ () => setShowNewBookmarkModal(false) } />
