@@ -44,6 +44,7 @@ export default function ExplorerListColorDropdown(props) {
             <Box 
                 background={hovering === args.color ? args.color : undefined}
                 onMouseEnter={() => setHovering(args.color)} 
+                onMouseLeave={ () => setHovering('') }
                 round='50%'
                 name={args.color} 
                 onMouseDown={handleColorSelect}
@@ -61,19 +62,23 @@ export default function ExplorerListColorDropdown(props) {
         <>
         { props.color === null ?
             <Grommet theme={theme}>
-            <Tip 
+            <Tip
                 content={ <Text size='16px'>Add a color!</Text> } 
                 dropProps={{ margin: {left: '37px'}, align: { left: 'right' } }}
             >
                 <DropButton 
+                    margin={{ top: '8px' }}
                     open={colorDropOpen} 
                     dropAlign={{ top: 'bottom' }}
                     onOpen={handleDropOpen}
                     onClose={() => setColorDropOpen(false)}
                     dropContent={
-                        <Box gap='xsmall' pad='xsmall'>
+                        <Box round='large' gap='xsmall' pad='xsmall'>
                             <Box name={null} onMouseDown={handleColorSelect}>
-                                <Clear name={null} color='rgba(0,0,0,0.2)' />
+                                <Clear 
+                                    style={{ cursor: 'pointer' }} 
+                                    name={null} 
+                                    color='rgba(0,0,0,0.2)' />
                             </Box>
                             { colors.map( e => <ColorIcon color={e} /> ) }
                         </Box>
@@ -93,6 +98,7 @@ export default function ExplorerListColorDropdown(props) {
             
             <Grommet theme={theme}>
                 <DropButton 
+                    margin={{ top: '8px' }}
                     open={colorDropOpen} 
                     dropAlign={{ top: 'bottom' }}
                     onOpen={handleDropOpen}
