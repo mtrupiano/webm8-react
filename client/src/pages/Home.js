@@ -94,6 +94,7 @@ export default function Home(props) {
                     // Get the path to the currently selected collection
                     API.getPath(collectionId, props.user.token)
                         .then( pathResponse => {
+                            console.log(pathResponse.data);
                             setPath(pathResponse.data)
                         }).catch(err => {
                             console.log(err)

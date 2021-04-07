@@ -6,6 +6,7 @@ import { StatusGoodSmall, Clear } from 'grommet-icons';
 export default function ExplorerListColorDropdown(props) {
     const [colorDropOpen, setColorDropOpen] = useState(false);
     const [grayOnHover, setGrayOnHover] = useState('white');
+    const [ hovering, setHovering ] = useState('')
 
     const handleColorSelect = (event) => {
         setColorDropOpen(false);
@@ -40,8 +41,17 @@ export default function ExplorerListColorDropdown(props) {
 
     const ColorIcon = (args) => {
         return (
-            <Box name={args.color} onMouseDown={handleColorSelect}>
-                <StatusGoodSmall id={args.color} name={args.color} color={args.color} />
+            <Box 
+                background={hovering === args.color ? args.color : undefined}
+                onMouseEnter={() => setHovering(args.color)} 
+                round='50%'
+                name={args.color} 
+                onMouseDown={handleColorSelect}
+            >
+                <StatusGoodSmall 
+                    style={{ cursor: 'pointer' }} 
+                    id={args.color} 
+                    name={args.color} color={args.color} />
             </Box> )
     }
 
@@ -90,7 +100,10 @@ export default function ExplorerListColorDropdown(props) {
                     dropContent={
                         <Box round='large' gap='xsmall' pad='xsmall'>
                             <Box name={null} onMouseDown={handleColorSelect}>
-                                <Clear name={null} color='rgba(0,0,0,0.2)' />
+                                <Clear 
+                                    style={{ cursor: 'pointer' }}  
+                                    name={null} 
+                                    color='rgba(0,0,0,0.2)' />
                             </Box>
                             { colors.map(e => <ColorIcon color={e} />) }
                         </Box>
