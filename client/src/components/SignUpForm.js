@@ -101,7 +101,7 @@ export default function SignUpForm(props) {
                 })
                 props.onSuccessfulSignUp();
             }).catch( err => {
-                if (err.response.data && err.response.data.code === 11000) {
+                if (err.response && err.response.data.code === 11000) {
                     console.log("ERR: Duplicate username!")
                     setFormValidation({ ...formValidation, duplicateUserNameError: true })
                 }
