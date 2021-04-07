@@ -52,6 +52,13 @@ export default function Path(props) {
                                     size='medium'
                                     key={e._id}
                                     onClick={() => props.setSelectedCollection(e._id)}
+                                    style={{ 
+                                        maxWidth: '80px', 
+                                        overflow: 'hidden', 
+                                        textOverflow: 'ellipsis',
+                                        whiteSpace: 'nowrap',
+                                        wordWrap: 'break-word'
+                                    }}
                                 >
                                     {e.name === '_root' ? 'root' : e.name}
                                 </Anchor>
