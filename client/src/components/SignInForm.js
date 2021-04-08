@@ -18,7 +18,7 @@ export default function SignInForm(props) {
             return;
         const signIn = await props.handleSignIn(formValues.username, formValues.password)
 
-        if ( signIn && signIn.message === "User not found") {
+        if ( signIn && (signIn.message === "User not found" || signIn.message === "Invalid password") ) {
             setUserNotFoundErr(true)
         }
     }
@@ -105,7 +105,7 @@ export default function SignInForm(props) {
                             value={formValues.password}
                         />
                     </FormField>
-                    <ErrorMsg message="User not found." toggler={userNotFoundErr} />
+                    <ErrorMsg message="Username or password incorrect." toggler={userNotFoundErr} />
 
                     <Box gap='small' justify='center' direction='row'>
                         <Button 
