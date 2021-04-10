@@ -67,7 +67,7 @@ export default function NewCollectionModal(props) {
                     Add a new collection in: 
 
                     <Text size={pathTextSize}> /root/</Text>
-                    { props.path.map( e => <Text size={pathTextSize}>{e.name}/</Text> )}
+                    { props.path.map( e => <Text key={e.name} size={pathTextSize}>{e.name}/</Text> )}
                 </Heading>
             </Box>
 
@@ -88,7 +88,7 @@ export default function NewCollectionModal(props) {
                         direction='row'
                         gap='small'
                     >
-                        { colors.map( e => <ColorSelect color={e} /> ) }
+                        { colors.map( e => <ColorSelect key={e} color={e} /> ) }
                         <Stack
                             onClick={() => setColor('')}
                             anchor='center'

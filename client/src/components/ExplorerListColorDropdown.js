@@ -46,7 +46,7 @@ export default function ExplorerListColorDropdown(props) {
                 onMouseEnter={() => setHovering(args.color)} 
                 onMouseLeave={ () => setHovering('') }
                 round='50%'
-                name={args.color} 
+                name={args.color}
                 onMouseDown={handleColorSelect}
             >
                 <StatusGoodSmall 
@@ -74,13 +74,13 @@ export default function ExplorerListColorDropdown(props) {
                     onClose={() => setColorDropOpen(false)}
                     dropContent={
                         <Box round='large' gap='xsmall' pad='xsmall'>
-                            <Box name={null} onMouseDown={handleColorSelect}>
+                            <Box name={null} key='blank' onMouseDown={handleColorSelect}>
                                 <Clear 
                                     style={{ cursor: 'pointer' }} 
                                     name={null} 
                                     color='rgba(0,0,0,0.2)' />
                             </Box>
-                            { colors.map( e => <ColorIcon color={e} /> ) }
+                            { colors.map( e => <ColorIcon key={e} color={e} /> ) }
                         </Box>
                     }
                 >
@@ -111,7 +111,7 @@ export default function ExplorerListColorDropdown(props) {
                                     name={null} 
                                     color='rgba(0,0,0,0.2)' />
                             </Box>
-                            { colors.map(e => <ColorIcon color={e} />) }
+                            { colors.map(e => <ColorIcon key={e} color={e} />) }
                         </Box>
                     }
                 >
