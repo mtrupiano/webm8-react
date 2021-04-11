@@ -19,7 +19,7 @@ export default function NewCollectionModal(props) {
         API.createCollection({
             parent: props.parent,
             name: formValues.name,
-            color: color
+            color: (color === '' ? null : color)
         }, props.token).then( (response) => {
             console.log(response);
             props.closeModal(false);
@@ -67,7 +67,7 @@ export default function NewCollectionModal(props) {
                     Add a new collection in: 
 
                     <Text size={pathTextSize}> /root/</Text>
-                    { props.path.map( e => <Text key={e.name} size={pathTextSize}>{e.name}/</Text> )}
+                    { props.path.map( e => <Text key={e._id} size={pathTextSize}>{e.name}/</Text> )}
                 </Heading>
             </Box>
 

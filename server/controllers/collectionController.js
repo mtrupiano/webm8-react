@@ -4,11 +4,11 @@ const db = require('../models');
 const verifyToken = require('./authentication');
 
 router.post('/', verifyToken, (req, res) => {
-
+    console.log(req.body.color)
     db.collection.create({
         name: req.body.name,
         user: req.userId,
-        color: req.body.color,
+        color: null,
         parent: req.body.parent || req.root
     }).then( (collection) => {
         // If a parent collection is specified, update the parent
