@@ -50,7 +50,6 @@ export default function Path(props) {
                             <Box key={e._id} direction='row'>
                                 <Anchor
                                     size='medium'
-                                    key={e._id}
                                     onClick={() => props.setSelectedCollection(e._id)}
                                     style={{ 
                                         maxWidth: '80px', 
@@ -90,23 +89,23 @@ export default function Path(props) {
                 </>
                 :
                 props.path.map(e => {
-                    return <Box key={e._id} direction='row'>
-                        <Anchor
-                            size='medium'
-                            key={e._id}
-                            onClick={() => props.setSelectedCollection(e._id)}
-                            style={{
-                                maxWidth: '120px',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap',
-                                wordWrap: 'break-word'
-                            }}
-                        >
-                            {e.name === '_root' ? 'root' : e.name}
-                        </Anchor>
-                        <Text size='medium'>/</Text>
-                    </Box>
+                    return (
+                        <Box key={e._id} direction='row'>
+                            <Anchor
+                                size='medium'
+                                onClick={() => props.setSelectedCollection(e._id)}
+                                style={{
+                                    maxWidth: '120px',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    whiteSpace: 'nowrap',
+                                    wordWrap: 'break-word'
+                                }}
+                            >
+                                {e.name === '_root' ? 'root' : e.name}
+                            </Anchor>
+                            <Text size='medium'>/</Text>
+                        </Box> )
             }) }
         </Box>
         </Grommet>
