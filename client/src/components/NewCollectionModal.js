@@ -4,6 +4,7 @@ import { Form, FormField, TextInput, Button, Box, Heading, Text, RadioButtonGrou
 
 import API from '../utils/API';
 import { Clear, Folder, Radial, StatusGoodSmall } from 'grommet-icons';
+import MyButton from './MyButton';
 
 export default function NewCollectionModal(props) {
 
@@ -120,12 +121,21 @@ export default function NewCollectionModal(props) {
                     </Box>
 
                 </Box>
-
-                <Button 
-                    disabled={ formValues.name === '' }
-                    type='submit' 
-                    label='Submit' 
-                />
+                <Box justify='center' direction='row' gap='medium'>
+                    <MyButton
+                        background='#69DB58'
+                        borderColor='gray'
+                        disabled={formValues.name === ''}
+                        type='submit'
+                        label='Submit' 
+                    />
+                    <MyButton
+                        background='#69DB58'
+                        borderColor='gray'
+                        label='Cancel'
+                        onClick={() => props.closeModal(false)} 
+                    />
+                </Box>
             </Form>
         </Box>
     )
