@@ -4,6 +4,11 @@ const db = require('../models');
 const verifyToken = require('./authentication');
 
 router.post('/', verifyToken, (req, res) => {
+    if (req.body.name === '_root' || req.body.name === 'root') {
+        res.status(500).json({ message: "Name reserved" })
+        return
+    }
+    
     db.collection.findOne({ 
         name: req.body.name, 
         parent: req.body.parent 

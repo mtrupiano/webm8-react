@@ -16,6 +16,7 @@ export default function NewCollectionModal(props) {
     const colors = [ 'red', 'yellow', 'green', 'blue', 'orange', 'purple', 'pink' ]
 
     const [ duplicateNameError, setDuplicateNameError ] = useState(false);
+    const [ invalidNameError, setInvalidNameError ] = useState(false);
 
     const handleSubmit = (e) => {
         API.createCollection({
@@ -26,8 +27,12 @@ export default function NewCollectionModal(props) {
             props.closeModal(false)
             props.onSubmit()
         }).catch( (err) => {
-            if (err.response && err.response.data.message === 'Duplicate collection') {
-                setDuplicateNameError(true)
+            if (err.response) {
+                if (err.response.data.message === 'Duplicate collection') {
+                    setDuplicateNameError(true)
+                } else if (err.response.data.message === 'Name reserved') {
+                    setInvalidNameError(true)
+                }
             }
             console.log(err)
         })
@@ -35,6 +40,7 @@ export default function NewCollectionModal(props) {
 
     const handleInput = (e) => {
         setDuplicateNameError(false)
+        setInvalidNameError(false)
         setFormValues({ ...formValues, [e.target.name]: e.target.value })
     }
 
@@ -48,15 +54,14 @@ export default function NewCollectionModal(props) {
                 anchor='center'
             >
                 <Radial 
-                    size='26px' 
+                    size='34px' 
                     color={ color === args.color ? color : 'rgba(0,0,0,0)'} 
                 />
-                <Box width='18px' height='18px' round='50%' background={args.color} />
-                {/* <StatusGoodSmall
+                <StatusGoodSmall
                     className='color-button'
-                    size='21px'
+                    size='30px'
                     color={args.color}
-                /> */}
+                />
             </Stack> )
     }
 
@@ -101,8 +106,12 @@ export default function NewCollectionModal(props) {
                     toggler={duplicateNameError}
                     message="A collection with that name already exists here."
                 />
+                <ErrorMsg 
+                    toggler={invalidNameError}
+                    message="Sorry, that collection name is reserved." 
+                />
                 
-                <Box margin={{ bottom: '30px' }} direction='row' gap='small'>
+                <Box margin={{ left: '12px', bottom: '30px' }} direction='row' gap='small'>
 
                     <Text size='18px'>Color: </Text>
                     <Box 
@@ -113,8 +122,9 @@ export default function NewCollectionModal(props) {
                         <Stack
                             onClick={() => setColor('')}
                             anchor='center'
+                            style={{ cursor: 'pointer' }}
                         >
-                            <Radial size='26px' color='rgba(0,0,0,0)' />
+                            <Radial size='32px' color='rgba(0,0,0,0)' />
                             <Clear size='21px' />
                         </Stack>
                         
