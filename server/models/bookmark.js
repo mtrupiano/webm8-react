@@ -7,7 +7,6 @@ module.exports = mongoose.model("Bookmark", new Schema(
         name: {
             type: String,
             trim: true,
-            unique: true,
             required: 'Bookmark name required.'
         },
         url: {
@@ -25,7 +24,11 @@ module.exports = mongoose.model("Bookmark", new Schema(
         },
         color: {
             type: String,
-            enum: ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'pink']
+            enum: ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'pink', null]
+        },
+        parent: {
+            type: Schema.Types.ObjectId,
+            ref: 'Collection'
         }
     }
 ));
