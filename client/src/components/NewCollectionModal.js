@@ -1,10 +1,11 @@
 import { React, useState } from 'react'
 
-import { Form, FormField, TextInput, Button, Box, Heading, Text, RadioButtonGroup, Stack, RadioButton } from 'grommet';
+import { Form, FormField, TextInput, Box, Heading, Text, Stack } from 'grommet';
+import { Clear, Folder, Radial, StatusGoodSmall } from 'grommet-icons';
 
 import API from '../utils/API';
-import { Clear, Folder, Radial, StatusGoodSmall } from 'grommet-icons';
-import MyButton from './MyButton';
+import MyButton from './MyButton'
+import ErrorMsg from './ErrorMsg'
 
 export default function NewCollectionModal(props) {
 
@@ -63,14 +64,6 @@ export default function NewCollectionModal(props) {
                     color={args.color}
                 />
             </Stack> )
-    }
-
-    const ErrorMsg = (props) => {
-        if (props.toggler) {
-            return <Text size='11pt' color='red'>{props.message}</Text>
-        } else {
-            return null
-        }
     }
 
     return (

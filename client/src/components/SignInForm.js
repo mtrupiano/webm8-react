@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Form, FormField, TextInput, Button, Box, Grommet, Heading, Anchor, Text } from 'grommet'
 
+import ErrorMsg from './ErrorMsg'
+
 export default function SignInForm(props) {
     const [ formValues, setFormValues ] = useState({
         username: '',
@@ -57,14 +59,6 @@ export default function SignInForm(props) {
         }
     }
 
-    const ErrorMsg = (props) => {
-        if (props.toggler) {
-            return <Text size='11pt' color='red'>{props.message}</Text>
-        } else {
-            return null
-        }
-    }
-
     return (
         <Grommet theme={theme}>
 
@@ -105,7 +99,10 @@ export default function SignInForm(props) {
                             value={formValues.password}
                         />
                     </FormField>
-                    <ErrorMsg message="Username or password incorrect." toggler={userNotFoundErr} />
+                    <ErrorMsg 
+                        message="Username or password incorrect." 
+                        toggler={userNotFoundErr} 
+                    />
 
                     <Box gap='small' justify='center' direction='row'>
                         <Button 
