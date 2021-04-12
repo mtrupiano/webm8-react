@@ -8,9 +8,9 @@ router.post('/', verifyToken, (req, res) => {
         res.status(500).json({ message: "Name reserved" })
         return
     }
-    
+
     db.collection.findOne({ 
-        name: req.body.name, 
+        name: { $regex: new RegExp(req.body.name, 'i') }, 
         parent: req.body.parent 
     }).then( found => {
         if (found) {
