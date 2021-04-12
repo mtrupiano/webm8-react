@@ -56,7 +56,7 @@ export default function ExplorerListColorDropdown(props) {
             </Box> )
     }
 
-    const colors = [ 'red', 'green', 'blue', 'orange', 'purple', 'pink' ]
+    const colors = [ 'red', 'yellow', 'green', 'blue', 'orange', 'purple', 'pink' ]
 
     return (
         <>

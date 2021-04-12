@@ -11,7 +11,7 @@ module.exports = mongoose.model("Collection", new Schema(
         },
         color: {
             type: String,
-            enum: ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'pink']
+            enum: ['red', 'blue', 'yellow', 'orange', 'green', 'purple', 'pink', null]
         },
         user: {
             type: Schema.Types.ObjectId,
