@@ -72,19 +72,20 @@ export default function NewCollectionModal(props) {
             width='large'
             pad='small'
         >
-            <Box margin={{ vertical: '10px' }} gap='small' direction='row'>
+            <Box align='center' margin={{ bottom: '10px' }} gap='small' direction='row'>
 
                 <Folder size='40px' />
-
-                <Heading margin='0' level={3}>
-                    Add a new collection in: 
-                </Heading>
+                <Box>
+                    <Heading margin='0' level={3}>
+                        Add a new collection in: 
+                    </Heading>
+                    <Heading margin='0' style={{ padding: '0px'}} level={3}> 
+                        { props.path.map( e =>  <Text key={e._id} size={pathTextSize}>
+                                                    {e.name === '_root' ? '/root' : e.name}/
+                                                </Text> )}
+                    </Heading>
+                </Box>
             </Box>
-            <Heading margin='0' style={{ padding: '0px'}} level={3}> 
-                { props.path.map( e =>  <Text key={e._id} size={pathTextSize}>
-                                            {e.name === '_root' ? '/root' : e.name}/
-                                        </Text> )}
-            </Heading>
 
             <Form onSubmit={handleSubmit} value={formValues}>
                 <FormField name='name' htmlFor='name' label='Collection Name' required>
