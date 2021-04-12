@@ -75,15 +75,27 @@ router.put('/bookmark/:bookmarkId', verifyToken, (req, res) => {
 });
 
 router.put('/rename', verifyToken, (req, res) => {
-    db.collection.findByIdAndUpdate(
-        req.body.id,
-        { $set: { name: req.body.name } },
-        { new: true }
-    ).then((collection) => {
-        res.json(collection);
-    }).catch((err) => {
-        res.status(500).json(err);
-    });
+    db.collection.findOne({
+        name: { $regex: new RegExp(`^${req.body.name}$`, 'i') },
+        parent: req.body.parent
+    }).then( found => {
+        if (found) {
+            res.status(500).json({ message: 'Duplicate collection' })
+            return
+        }
+
+        db.collection.findByIdAndUpdate(
+            req.body.id,
+            { $set: { name: req.body.name } },
+            { new: true }
+        ).then((collection) => {
+            res.json(collection)
+        }).catch((err) => {
+            res.status(500).json(err)
+        })
+    }).catch( err => {
+        res.status(500).json(err)
+    })
 });
 
 router.get('/', verifyToken, (req, res) => {
