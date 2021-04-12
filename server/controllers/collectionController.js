@@ -10,7 +10,7 @@ router.post('/', verifyToken, (req, res) => {
     }
 
     db.collection.findOne({ 
-        name: { $regex: new RegExp(req.body.name, 'i') }, 
+        name: { $regex: new RegExp(`^${req.body.name}$`, 'i') },
         parent: req.body.parent 
     }).then( found => {
         if (found) {
@@ -20,7 +20,7 @@ router.post('/', verifyToken, (req, res) => {
         db.collection.create({
             name: req.body.name,
             user: req.userId,
-            color: null,
+            color: req.body.color,
             parent: req.body.parent || req.root
         }).then( (collection) => {
             // If a parent collection is specified, update the parent
