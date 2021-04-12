@@ -78,8 +78,12 @@ export default function NewCollectionModal(props) {
             width='large'
             pad='small'
         >
-            <Box align='center' margin={{ bottom: '10px' }} gap='small' direction='row'>
-
+            <Box 
+                align='center' 
+                margin={{ bottom: '10px' }} 
+                gap='small' 
+                direction='row'
+            >
                 <Folder size='40px' />
                 <Box>
                     <Heading margin='0' level={3}>
