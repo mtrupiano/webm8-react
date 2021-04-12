@@ -3,7 +3,7 @@ import { React, useState } from 'react'
 import { Form, FormField, TextInput, Button, Box, Heading, Text, Stack, TextArea } from 'grommet';
 
 import API from '../utils/API';
-import { Clear, Folder, Radial, StatusGoodSmall } from 'grommet-icons';
+import { Clear, Bookmark, Radial, StatusGoodSmall } from 'grommet-icons';
 
 import MyButton from './MyButton'
 import ErrorMsg from './ErrorMsg'
@@ -84,7 +84,7 @@ export default function NewBookmarkModal(props) {
                 gap='small' 
                 direction='row'
             >
-                <Folder size='40px' />
+                <Bookmark size='40px' />
                 <Box>
                     <Heading margin='0' level={3}>
                         Add a new bookmark in:
