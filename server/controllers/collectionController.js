@@ -4,46 +4,56 @@ const db = require('../models');
 const verifyToken = require('./authentication');
 
 router.post('/', verifyToken, (req, res) => {
-    console.log(req.body.color)
-    db.collection.create({
-        name: req.body.name,
-        user: req.userId,
-        color: null,
-        parent: req.body.parent || req.root
-    }).then( (collection) => {
-        // If a parent collection is specified, update the parent
-        if (req.body.parent) {
-            db.collection.findByIdAndUpdate(
-                req.body.parent,
-                { $addToSet: { collections: collection.id } },
-                { new: true } 
-            ).populate('collections')
-                .populate('bookmarks')
-                .then( (updatedParent) => {
-                    res.json(updatedParent);
-                })
-                .catch((err) => {
-                    res.status(500).json(err);
-                });
-        } else {
-            // Add new collection to user's root
-            console.log(req.root);
-            db.collection.findByIdAndUpdate(
-                req.root,
-                { $addToSet: { collections: collection.id } },
-                { new: true }
-            ).populate('collections')
-                .populate('bookmarks')
-                .then( (updatedRoot) => {
-                    res.json(updatedRoot);
-                })
-                .catch( (err) => {
-                    res.status(500).json(err);
-                });
+    db.collection.findOne({ 
+        name: req.body.name, 
+        parent: req.body.parent 
+    }).then( found => {
+        if (found) {
+            res.status(500).json({ message: 'Duplicate collection' })
+            return 
         }
-    }).catch( (err) => {
-        res.status(500).json(err);
-    });
+        db.collection.create({
+            name: req.body.name,
+            user: req.userId,
+            color: null,
+            parent: req.body.parent || req.root
+        }).then( (collection) => {
+            // If a parent collection is specified, update the parent
+            if (req.body.parent) {
+                db.collection.findByIdAndUpdate(
+                    req.body.parent,
+                    { $addToSet: { collections: collection.id } },
+                    { new: true } 
+                ).populate('collections')
+                    .populate('bookmarks')
+                    .then( (updatedParent) => {
+                        res.json(updatedParent);
+                    })
+                    .catch((err) => {
+                        res.status(500).json(err);
+                    });
+            } else {
+                // Add new collection to user's root
+                console.log(req.root);
+                db.collection.findByIdAndUpdate(
+                    req.root,
+                    { $addToSet: { collections: collection.id } },
+                    { new: true }
+                ).populate('collections')
+                    .populate('bookmarks')
+                    .then( (updatedRoot) => {
+                        res.json(updatedRoot);
+                    })
+                    .catch( (err) => {
+                        res.status(500).json(err);
+                    });
+            }
+        }).catch( (err) => {
+            res.status(500).json(err);
+        });
+    }).catch( err => {
+        res.status(500).json(err)
+    })
 });
 
 // Add a bookmark to this collection

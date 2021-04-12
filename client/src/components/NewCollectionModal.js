@@ -12,8 +12,9 @@ export default function NewCollectionModal(props) {
     });
 
     const [ color, setColor ] = useState('')
+    const colors = [ 'red', 'yellow', 'green', 'blue', 'orange', 'purple', 'pink' ]
 
-    const colors = [ 'red', 'blue' ]
+    const [ duplicateNameError, setDuplicateNameError ] = useState(false);
 
     const handleSubmit = (e) => {
         API.createCollection({
@@ -21,15 +22,18 @@ export default function NewCollectionModal(props) {
             name: formValues.name,
             color: (color === '' ? null : color)
         }, props.token).then( (response) => {
-            console.log(response);
-            props.closeModal(false);
-            props.onSubmit();
+            props.closeModal(false)
+            props.onSubmit()
         }).catch( (err) => {
-            console.log(err);
+            if (err.response && err.response.data.message === 'Duplicate collection') {
+                setDuplicateNameError(true)
+            }
+            console.log(err)
         })
     }
 
     const handleInput = (e) => {
+        setDuplicateNameError(false)
         setFormValues({ ...formValues, [e.target.name]: e.target.value })
     }
 
@@ -39,6 +43,7 @@ export default function NewCollectionModal(props) {
         return (
             <Stack 
                 onClick={ () => setColor( args.color )}
+                style={{ cursor: 'pointer' }}
                 anchor='center'
             >
                 <Radial 
@@ -54,6 +59,14 @@ export default function NewCollectionModal(props) {
             </Stack> )
     }
 
+    const ErrorMsg = (props) => {
+        if (props.toggler) {
+            return <Text size='11pt' color='red'>{props.message}</Text>
+        } else {
+            return null
+        }
+    }
+
     return (
         <Box 
             width='large'
@@ -65,11 +78,13 @@ export default function NewCollectionModal(props) {
 
                 <Heading margin='0' level={3}>
                     Add a new collection in: 
-
-                    <Text size={pathTextSize}> /root/</Text>
-                    { props.path.map( e => <Text key={e._id} size={pathTextSize}>{e.name}/</Text> )}
                 </Heading>
             </Box>
+            <Heading margin='0' style={{ padding: '0px'}} level={3}> 
+                { props.path.map( e =>  <Text key={e._id} size={pathTextSize}>
+                                            {e.name === '_root' ? '/root' : e.name}/
+                                        </Text> )}
+            </Heading>
 
             <Form onSubmit={handleSubmit} value={formValues}>
                 <FormField name='name' htmlFor='name' label='Collection Name' required>
@@ -80,6 +95,10 @@ export default function NewCollectionModal(props) {
                         placeholder='Enter a name for your collection'
                     />
                 </FormField>
+                <ErrorMsg 
+                    toggler={duplicateNameError}
+                    message="A collection with that name already exists here."
+                />
                 
                 <Box margin={{ bottom: '30px' }} direction='row' gap='small'>
 
