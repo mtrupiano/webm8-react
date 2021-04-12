@@ -22,6 +22,7 @@ export default function ExplorerList(props) {
                                                 <ExplorerListBookmark 
                                                     token={data.user.token}
                                                     bookmark={e}
+                                                    key={e._id}
                                                     selectBookmark={data.selectBookmark}
                                                     selectedBookmark={data.selectedBookmark} />
                         )]

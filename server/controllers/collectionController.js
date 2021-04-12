@@ -10,7 +10,7 @@ router.post('/', verifyToken, (req, res) => {
     }
 
     db.collection.findOne({ 
-        name: { $regex: new RegExp(req.body.name, 'i') }, 
+        name: { $regex: new RegExp(`^${req.body.name}$`, 'i') },
         parent: req.body.parent 
     }).then( found => {
         if (found) {
@@ -20,7 +20,7 @@ router.post('/', verifyToken, (req, res) => {
         db.collection.create({
             name: req.body.name,
             user: req.userId,
-            color: null,
+            color: req.body.color,
             parent: req.body.parent || req.root
         }).then( (collection) => {
             // If a parent collection is specified, update the parent
@@ -75,15 +75,27 @@ router.put('/bookmark/:bookmarkId', verifyToken, (req, res) => {
 });
 
 router.put('/rename', verifyToken, (req, res) => {
-    db.collection.findByIdAndUpdate(
-        req.body.id,
-        { $set: { name: req.body.name } },
-        { new: true }
-    ).then((collection) => {
-        res.json(collection);
-    }).catch((err) => {
-        res.status(500).json(err);
-    });
+    db.collection.findOne({
+        name: { $regex: new RegExp(`^${req.body.name}$`, 'i') },
+        parent: req.body.parent
+    }).then( found => {
+        if (found) {
+            res.status(500).json({ message: 'Duplicate collection' })
+            return
+        }
+
+        db.collection.findByIdAndUpdate(
+            req.body.id,
+            { $set: { name: req.body.name } },
+            { new: true }
+        ).then((collection) => {
+            res.json(collection)
+        }).catch((err) => {
+            res.status(500).json(err)
+        })
+    }).catch( err => {
+        res.status(500).json(err)
+    })
 });
 
 router.get('/', verifyToken, (req, res) => {

@@ -2,6 +2,7 @@
 import { Form, FormField, TextInput, Button, Text, Grommet, Heading, Box, Anchor } from 'grommet'
 
 import API from '../utils/API'
+import ErrorMsg from './ErrorMsg'
 
 export default function SignUpForm(props) {
     const [ formValues, setFormValues ] = useState({
@@ -138,14 +139,6 @@ export default function SignUpForm(props) {
         },
         textInput: {
             extend: ' padding: 5px 3px 3px 3px '
-        }
-    }
-
-    const ErrorMsg = (props) => {
-        if (props.toggler) {
-            return <Text size='11pt' color='red'>{props.message}</Text>
-        } else {
-            return null
         }
     }
     
