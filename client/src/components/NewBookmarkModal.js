@@ -21,12 +21,6 @@ export default function NewBookmarkModal(props) {
     const [ duplicateNameError, setDuplicateNameError ] = useState(false)
 
     const handleSubmit = (e) => {
-        const str = 'new bookmark'
-        if (formValues.name.match(new RegExp(`^${str}$`, 'i'))) {
-            console.log(`MATCH`)
-        } else {
-            console.log('NO MATCH')
-        }
         API.createBookmark({
             parent: props.parent,
             name: formValues.name,
